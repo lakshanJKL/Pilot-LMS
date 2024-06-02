@@ -9,11 +9,19 @@ import {MatDialog} from "@angular/material/dialog";
 import {UpdateCourseComponent} from "../popup/update-course/update-course.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {AllLessonsComponent} from "../../lessons/popup/all-lessons/all-lessons.component";
 
 @Component({
   selector: 'app-all-courses',
   standalone: true,
-  imports: [MatTableModule, NgForOf, MatIcon, MatFabButton, MatTooltip, MatMiniFabButton, NgIf, NgClass],
+  imports: [MatTableModule,
+    NgForOf,
+    MatIcon,
+    MatFabButton,
+    MatTooltip,
+    MatMiniFabButton,
+    NgIf,
+    NgClass],
   templateUrl: './all-courses.component.html',
   styleUrls: ['./all-courses.component.scss']
 })
@@ -47,6 +55,17 @@ export class AllCoursesComponent implements OnInit {
     this.tableRow.nativeElement.scrollBy({left: -250, behavior: 'smooth'});
   }
 
+  // lessons popup window
+  lessonsWindow(id:any,title:any) {
+    this.matDialog.open(AllLessonsComponent,{
+      data:{
+        id:id,
+        title:title
+      }
+
+    });
+  }
+
 // update course
   updateCourse(id:any,title:any,teacherName:any,description:any) {
      this.matDialog.open(UpdateCourseComponent,{
@@ -58,6 +77,7 @@ export class AllCoursesComponent implements OnInit {
        }
      });
   }
+
   deleteCourse(id:any) {
     if(confirm("Are you sure?")){
       const courseObj = this.database.collection("courses").doc(id);
@@ -101,6 +121,5 @@ export class AllCoursesComponent implements OnInit {
   ngOnInit(): void {
     this.getCourses();
   }
-
 
 }

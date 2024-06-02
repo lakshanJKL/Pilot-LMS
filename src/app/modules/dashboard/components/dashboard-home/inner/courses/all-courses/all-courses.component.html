@@ -24,7 +24,7 @@
                     (click)="updateCourse(course.id,course.title,course.teacherName,course.description)">
               <mat-icon>sync_alt</mat-icon>
             </button>
-            <button mat-mini-fab matTooltip="Lessons"  class="lesson-btn" *ngIf="isState[i]">
+            <button mat-mini-fab matTooltip="Lessons"  class="lesson-btn" *ngIf="isState[i]" (click)="lessonsWindow(course.id,course.title)">
               <mat-icon>auto_stories</mat-icon>
             </button>
             <button mat-mini-fab matTooltip="Delete"  class="delete-btn" *ngIf="isState[i]" (click)="deleteCourse(course.id)">
