@@ -43,49 +43,81 @@ $height: 100%;
   .outer-lesson {
     width: $width;
     height: $height;
-    @include display(flex,column,flex-start,center);
+    @include display(flex, column, flex-start, center);
 
-    .lesson-header{
+    .lesson-header {
       width: $width;
       height: 80px;
       @include display();
 
-      .text{
+      .text {
         width: 80%;
-        height:$height;
-        @include display(flex,row,flex-start,center);
+        height: $height;
+        @include display(flex, row, flex-start, center);
 
-        span{
+        span {
           @include txtStyle(rgb(37, 35, 35), 32px, 500, 14px, normal);
         }
       }
-      .add-btn{
+
+      .add-btn {
         flex: 1;
-        height:$height;;
+        height: $height;;
         @include display();
 
-        button{
+        button {
           background-color: rgba(33, 166, 119, 0.99);
           color: rgba(255, 255, 255, 0.99);
         }
       }
     }
-    .content-header{
+
+    .content-header {
       width: $width;
       height: 50px;
-      @include display(flex,row,flex-start,center);
+      @include display(flex, row, flex-start, center);
 
-      span{
+      span {
         @include txtStyle(rgb(44, 41, 41), 18px, 500, 14px, normal);
       }
     }
-    .content-table{
+
+    .content-table {
       flex: 1;
       width: $width;
       background-color: rgba(225, 220, 220, 0.84);
 
-      table{
+      table {
         width: $width;
+
+       .content-block{
+         width: 100%;
+
+         .btn-bar-block {
+           width: $width;
+           height: 60px;
+           @include display(flex,row,flex-end,center);
+
+           .btn-lesson{
+             margin-left: 2%;
+             background-color: rgba(7, 150, 91, 0.99);
+           }
+           .delete-btn{
+             margin-left: 2%;
+             background-color: rgba(217, 46, 46, 0.99);
+           }
+         }
+         .content-block {
+           flex: 1;
+           height: auto;
+
+           span{
+             @include txtStyle(rgb(73, 71, 71), 16px, 500, 14px, normal);
+           }
+         }
+       }
+
+
       }
     }
   }

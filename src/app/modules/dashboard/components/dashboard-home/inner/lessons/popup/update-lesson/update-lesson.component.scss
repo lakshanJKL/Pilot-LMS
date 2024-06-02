@@ -1,0 +1,67 @@
+$width: 100%;
+$height: 50px;
+$m-top: 2%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+.outer-update-lesson{
+  @include display(flex, column, center, flex-start);
+
+  .title-area {
+    width: $width;
+    height: $height;
+    @include display();
+
+    span {
+      @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
+    }
+  }
+  .form-group {
+    width: 500px;
+    height: 340px;
+
+    .custom-mat-form-field {
+      margin-top:$m-top ;
+      width: $width;
+
+      .form-field-text-area{
+        width: $width;
+        height: 120px;
+      }
+    }
+
+    .btn-update-block{
+      width: $width;
+      @include display(flex, row, flex-end, center);
+
+      .update-btn{
+        border-radius: 4px;
+        background-color: rgba(7, 7, 243, 0.8);
+        border: none;
+        text-align: center;
+        padding: 20px;
+        width: 34%;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+        @include txtStyle(white, 14px, 500, 12px, normal);
+      }
+    }
+
+  }
+
+}
+

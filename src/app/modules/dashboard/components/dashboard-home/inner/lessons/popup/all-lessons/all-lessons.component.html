@@ -1,41 +1,57 @@
 <div class="container">
-  <div class="outer-lesson">
-    <div class="lesson-header">
-      <div class="text">
-        <span>{{courseTitle}}</span>
-      </div>
-      <div class="add-btn">
-        <button mat-fab matTooltip="Add new lesson" color="accent" (click)="createLesson()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
+    <div class="outer-lesson">
+        <div class="lesson-header">
+            <div class="text">
+                <span>{{courseTitle}}</span>
+            </div>
+            <div class="add-btn">
+                <button mat-fab matTooltip="Add new lesson" color="accent" (click)="createLesson()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="content-header">
+            <span>Course Content</span>
+        </div>
+        <div class="content-table">
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="4"></th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let lesson of lessonObject">
+                <tr>
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <b>{{lesson.values.title}}</b>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="content-block">
+                            <div class="btn-bar-block">
+                                <button mat-mini-fab matTooltip="Update" class="btn-lesson"
+                                        (click)="updateLesson(lesson.id,lesson.values.title,lesson.values.content)">
+                                    <mat-icon>sync_alt</mat-icon>
+                                </button>
+                                <button mat-mini-fab matTooltip="Delete" class="delete-btn"
+                                        (click)="deleteLesson(lesson.id)">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
+                            </div>
+                            <div class="content-block">
+                    <span>
+                      {{lesson.values.content}}
+                    </span>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="content-header">
-      <span>Course Content</span>
-    </div>
-    <div class="content-table">
-      <table>
-        <thead>
-        <tr>
-          <th colspan="4"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-              </mat-panel-title>
-              <mat-panel-description>
-                content
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>I'm visible because I am open</p>
-          </mat-expansion-panel>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>

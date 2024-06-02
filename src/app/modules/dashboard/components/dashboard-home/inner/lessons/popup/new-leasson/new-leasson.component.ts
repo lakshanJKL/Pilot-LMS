@@ -30,7 +30,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './new-leasson.component.html',
   styleUrl: './new-leasson.component.scss'
 })
-export class NewLeassonComponent implements OnInit {
+export class NewLessonComponent implements OnInit {
 
   // form controls
   descriptionControl = new FormControl("", [Validators.required]);

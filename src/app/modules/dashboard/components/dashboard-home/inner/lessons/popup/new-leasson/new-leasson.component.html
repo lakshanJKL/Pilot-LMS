@@ -1,36 +1,37 @@
 <div class="container" style="display: flex; justify-content: center;">
-  <div class="outer-new-lesson">
-    <div class="title-area">
-      <span>Create New Lesson</span>
-    </div>
-    <form>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="custom-mat-form-field">
-          <mat-label>Lesson Title</mat-label>
-          <input matInput
-                 [formControl]="titleControl"
-                 placeholder="Ex: introduce programing (max length 20)"
-                 maxlength="20"
-          >
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="custom-mat-form-field">
-          <mat-label>lessons</mat-label>
-          <textarea matInput
-                    [formControl]="descriptionControl"
-                    placeholder="Ex;lessons description "
-                    maxlength="255"
-                    class="form-field-text-area"
-
-          ></textarea>
-        </mat-form-field>
-        <div class="save-btn-block">
-          <button mat-raised-button class="save-btn" [disabled]=
-            "descriptionControl.invalid || titleControl.invalid || loading" (click)="saveBtn()">Save Lesson
-          </button>
+    <div class="outer-new-lesson">
+        <div class="title-area">
+            <span>Create New Lesson</span>
         </div>
-      </div>
-    </form>
-  </div>
+        <form>
+            <div class="form-group">
+                <mat-form-field appearance="outline" class="custom-mat-form-field">
+                    <mat-label>Lesson Title</mat-label>
+                    <input matInput
+                           [formControl]="titleControl"
+                           placeholder="Ex: introduce programing (max length 20)"
+                           maxlength="20"
+                    >
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="custom-mat-form-field">
+                    <mat-label>lessons</mat-label>
+                    <textarea matInput
+                              [formControl]="descriptionControl"
+                              placeholder="Ex;lessons description "
+                              maxlength="255"
+                              class="form-field-text-area"
+
+                    ></textarea>
+                </mat-form-field>
+                <div class="save-btn-block">
+                    <button mat-raised-button class="save-btn" [disabled]=
+                            "descriptionControl.invalid || titleControl.invalid || loading" (click)="saveBtn()">Save
+                        Lesson
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 
