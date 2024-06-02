@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="outer-lesson">
+    <div class="lesson-header">
+      <div class="text">
+        <span>{{courseTitle}}</span>
+      </div>
+      <div class="add-btn">
+        <button mat-fab matTooltip="Add new lesson" color="accent" (click)="createLesson()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="content-header">
+      <span>Course Content</span>
+    </div>
+    <div class="content-table">
+      <table>
+        <thead>
+        <tr>
+          <th colspan="4"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+              </mat-panel-title>
+              <mat-panel-description>
+                content
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

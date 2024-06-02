@@ -1,0 +1,92 @@
+$width: 100%;
+$innerWidth: 95%;
+$innerHeight: 95%;
+$height: 100%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+@mixin scrollbarStyle($trackColor, $thumbColor) {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $trackColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+    border-radius: 10px;
+    border: 3px solid $trackColor;
+    height: 5px;
+  }
+}
+
+
+.container {
+  width: 550px;
+  height: 500px;
+
+  .outer-lesson {
+    width: $width;
+    height: $height;
+    @include display(flex,column,flex-start,center);
+
+    .lesson-header{
+      width: $width;
+      height: 80px;
+      @include display();
+
+      .text{
+        width: 80%;
+        height:$height;
+        @include display(flex,row,flex-start,center);
+
+        span{
+          @include txtStyle(rgb(37, 35, 35), 32px, 500, 14px, normal);
+        }
+      }
+      .add-btn{
+        flex: 1;
+        height:$height;;
+        @include display();
+
+        button{
+          background-color: rgba(33, 166, 119, 0.99);
+          color: rgba(255, 255, 255, 0.99);
+        }
+      }
+    }
+    .content-header{
+      width: $width;
+      height: 50px;
+      @include display(flex,row,flex-start,center);
+
+      span{
+        @include txtStyle(rgb(44, 41, 41), 18px, 500, 14px, normal);
+      }
+    }
+    .content-table{
+      flex: 1;
+      width: $width;
+      background-color: rgba(225, 220, 220, 0.84);
+
+      table{
+        width: $width;
+      }
+    }
+  }
+}
