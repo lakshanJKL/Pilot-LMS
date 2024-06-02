@@ -1,0 +1,40 @@
+<div class="container" style="display: flex; justify-content: center;">
+  <div class="login-outer-box">
+    <div class="title-area">
+      <span><b>R</b>egister</span>
+    </div>
+    <div class="login-area">
+      <form [formGroup]="form">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Enter your name</mat-label>
+            <input matInput
+                   formControlName="fullName"
+                   placeholder="Ex: Pat Watson"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Enter your email</mat-label>
+            <input matInput
+                   formControlName="email"
+                   placeholder="Ex: pat@example.com"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'"
+                   formControlName="password"
+
+            >
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+          <button mat-raised-button class="login-btn" (click)="register()">Register</button>
+          <button mat-raised-button routerLink="/login" class="already-btn">Already have an account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

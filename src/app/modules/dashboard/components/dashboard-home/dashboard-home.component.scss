@@ -1,0 +1,88 @@
+$width: 100%;
+$height: 100%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+.home {
+  width: $width;
+  height: 75px;
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.38);
+  @include display();
+
+  .user-details {
+    width: 25%;
+    height: $height;
+    @include display(flex,column,center,flex-start);
+
+    .text{
+      margin-top: 5%;
+      margin-left: 3%;
+      @include txtStyle(rgb(37, 36, 36), 18px, 500, 14px, normal);
+    }
+  }
+  .logo{
+    width: 50%;
+    height: $height;
+    @include display();
+
+    span{
+      @include txtStyle(#333, 40px, 500, 14px, normal);
+      text-shadow: -0.01em -0.01em 0.01em #000;
+    }
+  }
+  .logout{
+    flex: 1;
+    height: $height;
+    @include display(flex,row,flex-end,center);
+
+
+    .logout-btn {
+      border-radius: 4px;
+      background-color: rgba(101, 101, 150, 0.85);
+      border: none;
+      text-align: center;
+      padding: 20px;
+      width: 50%;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+
+      span {
+        cursor: pointer;
+        @include display(inline-block,none,none,none);
+        @include txtStyle(white, 16px, 500, 14px, normal);
+        position: relative;
+        transition: 0.5s;
+      }
+      span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+      &:hover span {
+        padding-right: 25px;
+      }
+      &:hover span:after{
+        opacity: 1;
+        right: 0;
+      }
+    }
+
+  }
+}

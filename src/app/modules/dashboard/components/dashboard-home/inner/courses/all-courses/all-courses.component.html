@@ -1,0 +1,55 @@
+<div class="container">
+  <table>
+    <thead>
+    <tr>
+      <th colspan="4"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="tbl-rw" #tableRow>
+      <td>
+        <button mat-fab matTooltip="right" color="primary" (click)="rightSide()">
+          <mat-icon>keyboard_double_arrow_right</mat-icon>
+        </button>
+      </td>
+      <td *ngFor="let course of courseObject; let i = index">
+        <div class="c-box" (mouseenter)="visibleButtons(i)" (mouseleave)="hideButtons()">
+          <div class="title-block">
+            <div class="inner-tittle">
+              <span>{{course.title}}</span>
+            </div>
+          </div>
+          <div class="container">
+            <button mat-mini-fab matTooltip="Update"  class="update-btn" *ngIf="isState[i]"
+                    (click)="updateCourse(course.id,course.title,course.teacherName,course.description)">
+              <mat-icon>sync_alt</mat-icon>
+            </button>
+            <button mat-mini-fab matTooltip="Lessons"  class="lesson-btn" *ngIf="isState[i]">
+              <mat-icon>auto_stories</mat-icon>
+            </button>
+            <button mat-mini-fab matTooltip="Delete"  class="delete-btn" *ngIf="isState[i]" (click)="deleteCourse(course.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </div>
+          <div class="teacher-block">
+            <div class="inner-teacher">
+              <span>Course conduct by :</span>
+              <h3>{{course.teacherName}}</h3>
+            </div>
+          </div>
+          <div class="description-block">
+            <div class="inner-description">
+              <span>{{course.description}}</span>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <button mat-fab matTooltip="left" color="primary" (click)="leftSide()">
+          <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

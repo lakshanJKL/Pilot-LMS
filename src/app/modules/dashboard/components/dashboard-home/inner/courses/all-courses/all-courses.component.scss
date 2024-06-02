@@ -1,0 +1,140 @@
+$width: 100%;
+$innerWidth: 95%;
+$innerHeight: 95%;
+$height: 100%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+@mixin scrollbarStyle($trackColor, $thumbColor) {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $trackColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+    border-radius: 10px;
+    border: 3px solid $trackColor;
+    height: 5px;
+  }
+}
+
+table {
+  width: 100%;
+
+  .tbl-rw {
+    width: 1105px;
+    height: 350px;
+    @include display(flex, row, space-between, center);
+    overflow-x: scroll;
+    @include scrollbarStyle(rgb(255, 255, 255), rgba(128, 128, 227, 0.85));
+
+    td {
+      display: inline-block;
+      margin-right: 10px;
+
+      .c-box {
+        width: 250px;
+        height: 300px;
+        background-image: linear-gradient(to bottom right, rgba(12, 12, 141, 0.85), #12a688);
+        border-radius: 10px;
+        box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
+        @include display(flex, column, center, center);
+
+        .title-block {
+          width: $width;
+          height: 60%;
+          @include display();
+
+          .inner-tittle {
+            width: 75%;
+            height: 80%;
+            @include display();
+
+            span {
+              @include txtStyle(rgb(255, 255, 255), 32px, 500, 14px, normal);
+            }
+          }
+        }
+
+        .container {
+          @include display(flex, row, space-between, center);
+
+           .update-btn{
+             background-color: rgba(36, 255, 161, 0.99);
+           }
+          .lesson-btn{
+            background-color: rgba(106, 106, 246, 0.85);
+          }
+          .Delete{
+            background-color: rgba(217, 46, 46, 0.99);
+          }
+        }
+
+        .teacher-block {
+          width: $width;
+          height: 20%;
+          @include display();
+
+          .inner-teacher {
+            width: $innerWidth;
+            height: $innerHeight;
+            @include display(flex, column, center, flex-start);
+          }
+
+          span {
+            @include txtStyle(rgba(255, 255, 255, 0.99), 14px, 500, 14px, normal);
+          }
+
+          h3 {
+            @include txtStyle(rgba(203, 202, 202, 0.99), 14px, 500, 14px, normal);
+          }
+        }
+
+        .description-block {
+          flex: 1;
+          width: $width;
+          @include display(flex, row, center, flex-start);
+
+          .inner-description {
+            width: $innerWidth;
+            height: $innerHeight;
+            position: relative;
+            overflow: hidden;
+            @include display();
+
+            span {
+              text-align: justify;
+              @include txtStyle(rgba(255, 255, 255, 0.62), 14px, 500, 14px, normal);
+            }
+
+            &:hover {
+              overflow: auto;
+              @include scrollbarStyle(none, none);
+            }
+          }
+        }
+
+        &:hover {
+          background-color: #131212;;
+        }
+      }
+    }
+  }
+}

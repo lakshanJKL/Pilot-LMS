@@ -1,0 +1,48 @@
+<div class="container" style="display: flex; justify-content: center;">
+  <div class="outer-update-course">
+    <div class="title-area">
+      <span>Update Course</span>
+    </div>
+    <form>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="custom-mat-form-field">
+          <mat-label>Course Title</mat-label>
+          <input matInput
+                 [formControl]="titleControl"
+                 placeholder="Ex: Java Script (max length 20)"
+                 maxlength="20"
+          >
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="custom-mat-form-field">
+          <mat-label>Select Teacher</mat-label>
+          <input type="text"
+                 placeholder="Ex; pat walton"
+                 [formControl]="teacherControl"
+                 matInput
+                 [matAutocomplete]="autoTeacher">
+          <mat-autocomplete autoActiveFirstOption #autoTeacher="matAutocomplete">
+            <mat-option *ngFor="let options of filteredOptions | async "
+                        [value]="options">{{options}}</mat-option>
+
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="custom-mat-form-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput
+                    [formControl]="descriptionControl"
+                    placeholder="Ex; course description (max length 150)"
+                    maxlength="150"
+
+          ></textarea>
+        </mat-form-field>
+        <div class="update-btn-block">
+          <button mat-raised-button class="update-btn" [disabled]="titleControl.invalid ||
+          descriptionControl.invalid || titleControl.invalid || loading" (click)="updateBtn()">Update Course
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
