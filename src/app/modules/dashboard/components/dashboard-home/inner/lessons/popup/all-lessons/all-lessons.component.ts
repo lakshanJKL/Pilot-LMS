@@ -44,7 +44,9 @@ export class AllLessonsComponent implements OnInit{
       }
     });
   }
-
+loadLessons=()=>{
+  console.log("hi");
+}
   ngOnInit(): void {
     this.courseTitle= this.data.title;
   }
