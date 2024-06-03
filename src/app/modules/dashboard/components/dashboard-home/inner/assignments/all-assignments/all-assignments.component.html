@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="assignment-main-block">
+    <div class="assignment-inner-block">
+      <div class="assignment-table">
+        <table>
+          <thead>
+          <tr>
+            <th colspan="4"></th>
+          </tr>
+          </thead>
+          <tbody *ngFor="let assignment of assignmentObject">
+          <tr>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span>{{ assignment.assignmentTitle }}</span>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <b>Due Date : </b> <span class="dueDate">{{ assignment.dueDate | date: 'MMM d, y' }}</span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="submission-header">
+                <span>Assignment Submission</span>
+              </div>
+              <div class="submission-description">
+                <div class="desc-header">
+                  <span>description :</span>
+                </div>
+                <div class="desc-block">
+                  <p>{{ assignment.assignmentDesc }}</p>
+                </div>
+              </div>
+              <div class="submission-btn-bars">
+                <div class="attach-block">
+                  <input (change)="onChangeFile($event)" [formControl]="pdfFile" type="file">
+                  <mat-spinner diameter="30" *ngIf="loading" value="{{ uploadRate | async }}"></mat-spinner>
+                </div>
+                <div class="ops-block">
+                  <button mat-raised-button class="ops-btn" style="background-color: rgba(175, 175, 189, 0.85);">
+                    View
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="ops-btn"
+                    style="background-color: rgba(135, 68, 211, 0.9);"
+                    (click)="updateBtn(assignment.assignmentId, assignment.assignmentTitle, assignment.dueDate,
+                        assignment.assignmentDesc, assignment.lessonName)"
+                  >
+                    Update
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="ops-btn"
+                    style="background-color: rgba(255, 51, 51, 0.85);"
+                    (click)="deleteAssignment(assignment.assignmentId)"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    mat-raised-button
+                    class="ops-btn"
+                    style="background-color: rgba(80, 80, 255, 0.85);"
+                    (click)="submitAssignment(assignment.assignmentId)"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

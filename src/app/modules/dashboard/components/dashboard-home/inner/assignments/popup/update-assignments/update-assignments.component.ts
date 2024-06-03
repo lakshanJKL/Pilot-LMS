@@ -1,26 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {MatButton} from "@angular/material/button";
-import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
-import {MatInput, MatInputModule} from "@angular/material/input";
-import {map, Observable, startWith} from "rxjs";
-import {MatDialog} from "@angular/material/dialog";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {
   MatCalendarCellClassFunction,
   MatDatepicker,
   MatDatepickerInput,
-  MatDatepickerModule,
   MatDatepickerToggle
 } from "@angular/material/datepicker";
-import {provideNativeDateAdapter} from '@angular/material/core';
+import {MatFormField, MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {map, Observable, startWith} from "rxjs";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {provideNativeDateAdapter} from "@angular/material/core";
 
 @Component({
-  selector: 'app-new-assignment',
+  selector: 'app-update-assignments',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
@@ -29,23 +28,22 @@ import {provideNativeDateAdapter} from '@angular/material/core';
     MatAutocomplete,
     MatAutocompleteTrigger,
     MatButton,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle,
     MatFormField,
+    MatHint,
     MatInput,
     MatLabel,
     MatOption,
+    MatSuffix,
     NgForOf,
-    ReactiveFormsModule,
-    MatDatepickerToggle,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule
+    ReactiveFormsModule
   ],
-  templateUrl: './new-assignment.component.html',
-  styleUrl: './new-assignment.component.scss'
+  templateUrl: './update-assignments.component.html',
+  styleUrl: './update-assignments.component.scss'
 })
-export class NewAssignmentComponent implements OnInit {
+export class UpdateAssignmentsComponent implements OnInit {
   // form controls
   lessonControl = new FormControl('', [Validators.required]);
   descriptionControl = new FormControl("", [Validators.required]);
@@ -62,7 +60,8 @@ export class NewAssignmentComponent implements OnInit {
   constructor(private matDialog: MatDialog,
               private dataBase: AngularFirestore,
               private router: Router,
-              private matSnackBar: MatSnackBar
+              private matSnackBar: MatSnackBar,
+              @Inject(MAT_DIALOG_DATA) private data:any
   ) {
   }
 
@@ -81,7 +80,7 @@ export class NewAssignmentComponent implements OnInit {
 
 
   // create assignment
-  saveBtn() {
+  updateBtn() {
     this.loading=true;
     this.dataBase.collection("lessons").get().subscribe((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -96,8 +95,11 @@ export class NewAssignmentComponent implements OnInit {
             studentSubmissions: "",
             title: this.titleControl.value
           }
-          this.dataBase.collection("assignments").add(assignment).then(() => {
-            this.matSnackBar.open("Saved !", "close", {
+
+         const assignmentRef = this.dataBase.collection("assignments").doc(this.data.assignmentId);
+          assignmentRef.update(assignment).then(()=>{
+
+            this.matSnackBar.open("updated !", "close", {
               duration: 5000,
               direction: "ltr",
               horizontalPosition: "center",
@@ -106,14 +108,17 @@ export class NewAssignmentComponent implements OnInit {
             this.matDialog.closeAll();
             window.location.reload();
           });
-
         }
       });
-
     });
   }
 
   ngOnInit(): void {
+    this.titleControl.setValue(this.data.assignmentTitle);
+    this.lessonControl.setValue(this.data.lessonName);
+    this.dateControl.setValue(this.data.assignmentDueDate);
+    this.descriptionControl.setValue(this.data.assignmentDesc);
+
 
     // load teachers to autocomplete field
     this.dataBase.collection("lessons").get().subscribe((querySnap) => {

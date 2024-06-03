@@ -1,7 +1,7 @@
 <div class="container" >
-  <div class="outer-new-assigment">
+  <div class="outer-update-assigment">
     <div class="title-area">
-      <span>Create New Assignment</span>
+      <span>Update Assignment</span>
     </div>
     <form>
       <div class="form-group">
@@ -46,16 +46,17 @@
 
           ></textarea>
         </mat-form-field>
-        <div class="save-btn-block">
-          <button mat-raised-button class="save-btn" [disabled]="titleControl.invalid ||
-            descriptionControl.invalid || lessonControl.invalid || loading" (click)="saveBtn()">
-            Save Assignment
+        <div class="update-btn-block">
+          <button mat-raised-button class="update-btn" [disabled]="titleControl.invalid ||
+            descriptionControl.invalid || lessonControl.invalid || loading" (click)="updateBtn()">
+            Update Assignment
           </button>
         </div>
       </div>
     </form>
   </div>
 </div>
+
 
 
 

@@ -20,7 +20,7 @@ $m-top: 2%;
 .container{
   @include display(flex, row, center, none);
 
-  .outer-new-assigment {
+  .outer-update-assigment {
     @include display(flex, column, center, flex-start);
 
     .title-area {
@@ -47,17 +47,17 @@ $m-top: 2%;
         }
       }
 
-      .save-btn-block {
+      .update-btn-block {
         width: $width;
         @include display(flex, row, flex-end, center);
 
-        .save-btn {
+        .update-btn {
           border-radius: 4px;
           background-color: rgba(7, 7, 243, 0.8);
           border: none;
           text-align: center;
           padding: 20px;
-          width: 36%;
+          width: 40%;
           transition: all 0.5s;
           cursor: pointer;
           margin: 5px;
