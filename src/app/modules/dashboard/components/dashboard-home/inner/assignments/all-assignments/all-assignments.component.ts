@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  MatExpansionPanel,
-  MatExpansionPanelDescription,
-  MatExpansionPanelHeader,
-  MatExpansionPanelTitle
+    MatExpansionPanel,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatMiniFabButton} from "@angular/material/button";
@@ -17,162 +17,186 @@ import {UpdateAssignmentsComponent} from "../popup/update-assignments/update-ass
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {finalize, Observable} from "rxjs";
+import {UserService} from "../../../../../../../services/user.service";
+import {ViewComponent} from "../popup/view/view.component";
 
 
 @Component({
-  selector: 'app-all-assignments',
-  standalone: true,
-  imports: [
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-    MatIcon,
-    MatMiniFabButton,
-    MatTooltip,
-    NgForOf,
-    MatProgressSpinner,
-    NgIf,
-    ReactiveFormsModule,
-    AsyncPipe,
-    MatButton,
-    DatePipe
-  ],
-  templateUrl: './all-assignments.component.html',
-  styleUrls: ['./all-assignments.component.scss']
+    selector: 'app-all-assignments',
+    standalone: true,
+    imports: [
+        MatExpansionPanel,
+        MatExpansionPanelDescription,
+        MatExpansionPanelHeader,
+        MatExpansionPanelTitle,
+        MatIcon,
+        MatMiniFabButton,
+        MatTooltip,
+        NgForOf,
+        MatProgressSpinner,
+        NgIf,
+        ReactiveFormsModule,
+        AsyncPipe,
+        MatButton,
+        DatePipe
+    ],
+    templateUrl: './all-assignments.component.html',
+    styleUrls: ['./all-assignments.component.scss']
 })
 export class AllAssignmentsComponent implements OnInit {
-  panelOpenState = false;
-  pdfFile: any;
-  selectedFile: any;
-  // @ts-ignore
-  uploadRate: Observable<any>;
-  // @ts-ignore
-  downloadLink: Observable<string | undefined>;
-  loading: any = false;
-  assignmentObject: any[] = [];
-  studentSubmissionsObject: any[] = [];
+    panelOpenState = false;
+    pdfFile: any;
+    selectedFile: any;
+    // @ts-ignore
+    uploadRate: Observable<any>;
+    // @ts-ignore
+    downloadLink: Observable<string | undefined>;
+    loading: any = false;
+    assignmentObject: any[] = [];
+    studentSubmissionsObject: any[] = [];
+    getUserid: any;
 
-  constructor(private dataBase: AngularFirestore,
-              private matDialog: MatDialog,
-              private matSnackBar: MatSnackBar,
-              private storage: AngularFireStorage
-  ) {
-  }
-
-
-  //delete assignment
-  deleteAssignment(assignmentId: any) {
-    if (confirm("Are you sure?")) {
-      this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
-        this.matSnackBar.open("Successfully deleted !", "close", {
-          duration: 5000,
-          direction: "ltr",
-          horizontalPosition: "center",
-          verticalPosition: "top",
-        });
-        window.location.reload();
-      });
+    constructor(private dataBase: AngularFirestore,
+                private matDialog: MatDialog,
+                private matSnackBar: MatSnackBar,
+                private userService: UserService,
+                private storage: AngularFireStorage
+    ) {
     }
-  }
 
-  // update assignment & show popup window
-  updateBtn(id: any, title: any, duaDate: any, desc: any, lessonName: any) {
-    this.matDialog.open(UpdateAssignmentsComponent, {
-      data: {
-        assignmentId: id,
-        assignmentTitle: title,
-        lessonName: lessonName,
-        assignmentDueDate: duaDate,
-        assignmentDesc: desc
-      }
-    });
+    //view
+    viewBtn() {
+      this.matDialog.open(ViewComponent);
+    }
 
-  }
-
-  loadAssignments = () => {
-    this.dataBase.collection("assignments").get()
-      .subscribe((querySnapshot) => {
-        querySnapshot.forEach((assignmentDoc) => {
-          let assignmentData: any = assignmentDoc.data();
-
-          // Convert Firestore timestamp to  Date object
-          let dueDate: Date = assignmentData.dueDate.toDate();
-
-          this.dataBase.collection("lessons").get()
-            .subscribe((querySnapshot) => {
-              querySnapshot.forEach((lessonDoc) => {
-
-                let lessonsData: any = lessonDoc.data();
-
-                if (assignmentData.lessonId == lessonDoc.id) {
-
-                  const assignmentValues = {
-                    assignmentId: assignmentDoc.id,
-                    assignmentTitle: assignmentData.title,
-                    dueDate: dueDate,
-                    lessonName: lessonsData.title,
-                    assignmentDesc: assignmentData.description
-                  }
-                  this.assignmentObject.push(assignmentValues);
-
-                }
-              });
+    //delete assignment
+    deleteAssignment(assignmentId: any) {
+        if (confirm("Are you sure?")) {
+            this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
+                this.matSnackBar.open("Successfully deleted !", "close", {
+                    duration: 5000,
+                    direction: "ltr",
+                    horizontalPosition: "center",
+                    verticalPosition: "top",
+                });
+                window.location.reload();
             });
+        }
+    }
+
+    // update assignment & show popup window
+    updateBtn(id: any, title: any, duaDate: any, desc: any, lessonName: any) {
+        this.matDialog.open(UpdateAssignmentsComponent, {
+            data: {
+                assignmentId: id,
+                assignmentTitle: title,
+                lessonName: lessonName,
+                assignmentDueDate: duaDate,
+                assignmentDesc: desc
+            }
         });
-      });
-  }
+
+    }
+
+   private loadAssignments = () => {
+        this.dataBase.collection("assignments").get()
+            .subscribe((querySnapshot) => {
+                querySnapshot.forEach((assignmentDoc) => {
+                    let assignmentData: any = assignmentDoc.data();
+
+                    // Convert Firestore timestamp to  Date object
+                    let dueDate: Date = assignmentData.dueDate.toDate();
+
+                    this.dataBase.collection("lessons").get()
+                        .subscribe((querySnapshot) => {
+                            querySnapshot.forEach((lessonDoc) => {
+
+                                let lessonsData: any = lessonDoc.data();
+
+                                if (assignmentData.lessonId == lessonDoc.id) {
+
+                                    const assignmentValues = {
+                                        assignmentId: assignmentDoc.id,
+                                        assignmentTitle: assignmentData.title,
+                                        dueDate: dueDate,
+                                        lessonName: lessonsData.title,
+                                        assignmentDesc: assignmentData.description
+                                    }
+                                    this.assignmentObject.push(assignmentValues);
+
+                                }
+                            });
+                        });
+                });
+            });
+    }
 
 // assignment submission
-  submitAssignment(assignmentId: any) {
+    submitAssignment(assignmentId: any) {
 
-    if (this.selectedFile == null) {
-      alert("please choose your file");
+        if (this.selectedFile == null) {
+            alert("please choose your file");
 
-    } else {
-      this.loading = true;
-      const path = "files/" + "studentName/" + this.selectedFile.name;
-      const fileRef = this.storage.ref(path);
-      const task = this.storage.upload(path, this.selectedFile);
+        } else {
+            this.loading = true;
+            const path = "files/" + "studentName/" + this.selectedFile.name;
+            const fileRef = this.storage.ref(path);
+            const task = this.storage.upload(path, this.selectedFile);
 
-      this.uploadRate = task.percentageChanges();
+            this.uploadRate = task.percentageChanges();
 
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          this.downloadLink = fileRef.getDownloadURL();
-        })
-      ).subscribe();
+            task.snapshotChanges().pipe(
+                finalize(() => {
+                    this.downloadLink = fileRef.getDownloadURL();
+                })
+            ).subscribe();
 
-      task.then(() => {
-        this.downloadLink.subscribe((resp: any) => {
+            task.then(() => {
+                this.downloadLink.subscribe((resp: any) => {
 
-          const studentSubmissions = {
-            studentId: "student id",
-            pdfFile: resp
-          }
+                    const studentSubmissions = {
+                        studentId: this.getUserid,
+                        pdfFile: resp
+                    }
 
-          const updateSubmissions = this.dataBase.collection("assignments").doc(assignmentId);
-          updateSubmissions.update({studentSubmissions: studentSubmissions}).then(() => {
-            this.matSnackBar.open("Assignment submitted !", "close", {
-              direction: "ltr",
-              duration: 5000,
-              horizontalPosition: "center",
-              verticalPosition: "top"
+                    const updateSubmissions = this.dataBase.collection("assignments").doc(assignmentId);
+                    updateSubmissions.update({studentSubmissions: studentSubmissions}).then(() => {
+                        this.matSnackBar.open("Assignment submitted !", "close", {
+                            direction: "ltr",
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                        window.location.reload();
+                    });
+                });
             });
-            window.location.reload();
-          });
-        });
-      });
+        }
     }
-  }
 
-  onChangeFile(event: any) {
-    this.selectedFile = event.target.files[0];
-  }
+    onChangeFile(event: any) {
+        this.selectedFile = event.target.files[0];
+    }
 
-  ngOnInit(): void {
-    this.loadAssignments();
-  }
+    // get user id from database
+    private getEmail = (getEmail: any): any => {
+        this.dataBase.collection("users").get(getEmail)
+            .subscribe((querySnapShot) => {
+                querySnapShot.forEach((doc) => {
+                    let usersData: any = doc.data();
+
+                    if (usersData.email == getEmail) {
+                        this.getUserid = doc.id
+                    }
+
+                });
+            });
+    }
+
+    ngOnInit(): void {
+        this.getEmail(this.userService.globalUserEmail);
+        this.loadAssignments();
+    }
 
 
 }

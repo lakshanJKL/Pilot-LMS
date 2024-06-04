@@ -1,19 +1,19 @@
 <div class="container" style="margin-top: 3%">
-    <div class="course-header">
-        <div class="head-title">
-            <span>Courses</span>
-        </div>
-        <div class="btn-bar">
-            <div class="inner-btn-bar">
-                <button mat-raised-button class="br-btn" style="vertical-align:middle">
-                    <span>Management</span></button>
-                <button mat-raised-button class="br-btn" style="vertical-align:middle"
-                        routerLink="/dashboard/home/assignments"><span>Assignments</span></button>
-                <button mat-raised-button class="new-c-btn" (click)="newCourse()">+ Add New Course</button>
-            </div>
-        </div>
+  <div class="course-header">
+    <div class="head-title">
+      <span>Courses</span>
     </div>
-    <div class="table-view">
-        <router-outlet></router-outlet>
+    <div class="btn-bar">
+      <div class="inner-btn-bar">
+        <button mat-raised-button class="br-btn" style="vertical-align:middle"
+                routerLink="/dashboard/home/users"><span>Management</span></button>
+        <button mat-raised-button class="br-btn" style="vertical-align:middle"
+                routerLink="/dashboard/home/assignments"><span>Assignments</span></button>
+        <button mat-raised-button class="new-c-btn" (click)="newCourse()">+ Add New Course</button>
+      </div>
     </div>
+  </div>
+  <div class="table-view">
+    <router-outlet></router-outlet>
+  </div>
 </div>

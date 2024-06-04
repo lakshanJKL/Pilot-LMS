@@ -1,18 +1,17 @@
 <div class="home">
-  <div class="user-details">
-     <div class="text">
-       <span>Hello {{role}}</span>
-       <h3>{{userEmail}}</h3>
-     </div>
-  </div>
-  <div class="logo">
-     <span>Pilot LMS</span>
-  </div>
-  <div class="logout">
-    <button mat-mini-fab matTooltip="change role" color="primary" style="margin-right:3%">
-      <mat-icon>manage_accounts</mat-icon>
-    </button>
-    <button mat-raised-button class="logout-btn" style="vertical-align:middle" (click)="logout()"><span>Logout</span></button>
-  </div>
+    <div class="user-details">
+        <div class="text">
+            <span>Hello {{role}}</span>
+            <h3>{{userEmail}}</h3>
+        </div>
+    </div>
+    <div class="logo">
+        <span>Pilot LMS</span>
+    </div>
+    <div class="logout">
+        <button mat-fab matTooltip="Log out" class="logout-btn" (click)="logout()" >
+            <mat-icon>logout</mat-icon>
+        </button>
+    </div>
 </div>
 <router-outlet></router-outlet>

@@ -1,0 +1,85 @@
+$width: 100%;
+$innerWidth: 95%;
+$innerHeight: 95%;
+$height: 100%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+@mixin scrollbarStyle($trackColor, $thumbColor) {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $trackColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+    border-radius: 10px;
+    border: 3px solid $trackColor;
+    height: 5px;
+  }
+}
+
+.container {
+  border-radius: 10px;
+  background-color: rgba(183, 183, 232, 0.85);
+  padding: 1%;
+  overflow: hidden;
+
+  .user-main-block {
+    width: $width;
+    height: 340px;
+    background-color: rgba(255, 255, 255, 0.84);
+
+    .user-inner-block {
+      width: $width;
+      height: 100%;
+      overflow: auto;
+      @include scrollbarStyle(rgba(187, 182, 182, 0.84), rgba(35, 35, 35, 0.68));
+
+      .user-table {
+        flex: 1;
+        width: $width;
+
+        table {
+          width: $width;
+
+          .tbl-context {
+            @include display();
+
+            span {
+              margin-top: 3%;
+            }
+
+            .update-btn {
+              color: white;
+              border-radius: 5px;
+              background-color: rgba(76, 76, 248, 0.85);
+
+              &:hover {
+                color: white;
+                border-radius: 5px;
+                background-color: rgba(15, 15, 145, 0.95);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,13 +23,25 @@ const routes: Routes = [
         path: "assignments",
         loadComponent: () => import("./components/dashboard-home/inner/assignments/assignments.component")
           .then(e => e.AssignmentsComponent), children: [
-          {path:"", redirectTo: "/dashboard/home/assignments/all", pathMatch: "full"},
+          {path: "", redirectTo: "/dashboard/home/assignments/all", pathMatch: "full"},
           {
             path: "all",
             loadComponent:
               () => import("./components/dashboard-home/inner/assignments/all-assignments/all-assignments.component")
                 .then(e => e.AllAssignmentsComponent)
           }
+        ]
+      },
+      {
+        path: "users",
+        loadComponent:
+          () => import("./components/dashboard-home/inner/management/user-management/user-management.component")
+            .then(e => e.UserManagementComponent),children:[
+          {path:"",redirectTo:"/dashboard/home/users/all",pathMatch: "full"},
+          {path:"all",
+            loadComponent:
+              ()=>import("./components/dashboard-home/inner/management/user-management/all-users/all-users.component")
+                .then(e=>e.AllUsersComponent)}
         ]
       }
     ]

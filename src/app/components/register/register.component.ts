@@ -9,69 +9,73 @@ import {Router, RouterLink} from "@angular/router";
 import {MatRadioButton, MatRadioGroup, MatRadioModule} from "@angular/material/radio";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {UserService} from "../../services/user.service";
+import {PasswordManagerService} from "../../services/password-manager.service";
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButton,
-    MatError,
-    MatFormField,
-    MatRadioModule,
-    MatIcon,
-    MatIconButton,
-    MatInput,
-    MatLabel,
-    MatSuffix,
-    NgIf,
-    ReactiveFormsModule,
-    RouterLink,
-    MatRadioGroup,
-    MatRadioButton
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    standalone: true,
+    imports: [
+        FormsModule,
+        MatButton,
+        MatError,
+        MatFormField,
+        MatRadioModule,
+        MatIcon,
+        MatIconButton,
+        MatInput,
+        MatLabel,
+        MatSuffix,
+        NgIf,
+        ReactiveFormsModule,
+        RouterLink,
+        MatRadioGroup,
+        MatRadioButton
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
-  hide = true;
+    hide = true;
 
-  form = new FormGroup({
-    fullName: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.required]),
-    password:new FormControl("", [Validators.required])
-  })
+    form = new FormGroup({
+        fullName: new FormControl("", [Validators.required]),
+        email: new FormControl("", [Validators.required]),
+        password: new FormControl("", [Validators.required])
+    })
 
-  constructor(private router: Router,
-              private dataBase: AngularFirestore,
-              private userService: UserService,
-              private renderer: Renderer2
-  ) {
-  }
-
-  register() {
-    if (this.form.valid) {
-      this.userService.user = {
-        name: this.form.value.fullName,
-        email: this.form.value.email,
-        password:this.form.value.password,
-        role: "Student",
-      }
-
-      this.dataBase.collection("users").add(this.userService.user).then(() => {
-        this.router.navigateByUrl("/login").then();
-      });
-
-    } else {
-      alert('Form is invalid');
+    constructor(private router: Router,
+                private dataBase: AngularFirestore,
+                private userService: UserService,
+                private renderer: Renderer2,
+                private passwordManagerService: PasswordManagerService
+    ) {
     }
-  }
 
-  ngOnInit(): void {
-    this.renderer.setStyle(document.body,
-      'background-image',
-      'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
-    );
-    this.renderer.setStyle(document.body, 'opacity', '0.8');
-  }
+    // create new user
+    register() {
+
+        if (this.form.valid) {
+            this.userService.user = {
+                name: this.form.value.fullName,
+                email: this.form.value.email,
+                password: this.passwordManagerService.encrypt(this.form.value.password),
+                role: "student",
+            }
+
+            this.dataBase.collection("users").add(this.userService.user).then(() => {
+                this.router.navigateByUrl("/login").then();
+            });
+
+        } else {
+            alert('Form is invalid');
+        }
+    }
+
+    ngOnInit(): void {
+        this.renderer.setStyle(document.body,
+            'background-image',
+            'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
+        );
+        this.renderer.setStyle(document.body, 'opacity', '0.8');
+    }
 }

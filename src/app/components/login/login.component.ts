@@ -11,74 +11,105 @@ import {MatDividerModule} from "@angular/material/divider";
 import {emit} from "@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker";
 import {Router, RouterLink} from "@angular/router";
 import {CookieManagementService} from "../../services/cookie-management.service";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {PasswordManagerService} from "../../services/password-manager.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    NgIf,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterLink
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    standalone: true,
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatIconModule,
+        NgIf,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterLink
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  hide = true;
-  email = new FormControl('', [Validators.required, Validators.email]);
-  password: any = new FormControl("", Validators.required);
-  errorMessage = 'Please enter correct email';
+    hide = true;
+    email = new FormControl('', [Validators.required, Validators.email]);
+    password: any = new FormControl("", Validators.required);
+    errorMessage = 'Please enter correct email';
+    usersAll: any[] = [];
 
 
-  constructor(private render: Renderer2,
-              private router: Router,
-              private cookie: CookieManagementService
-  ) {
-    merge(this.email.statusChanges, this.email.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessage());
-  }
-
-  updateErrorMessage() {
-    if (this.email.hasError('required')) {
-      this.errorMessage = 'You must enter a value';
-    } else if (this.email.hasError('email')) {
-      this.errorMessage = 'Not a valid email';
-    } else {
-      this.errorMessage = '';
-    }
-  }
-
-  login() {
-    const userData = {
-      userEmail: this.email.value,
-      userPassword: this.password.value
-    }
-    this.cookie.createCookie("userData", JSON.stringify(userData));
-    this.router.navigateByUrl("/dashboard").then();
-  }
-
-  ngOnInit(): void {
-    if (this.cookie.isExistCookie("userData")) {
-      this.router.navigateByUrl("/dashboard/home").then();
+    constructor(private render: Renderer2,
+                private router: Router,
+                private dataBase: AngularFirestore,
+                private userService: UserService,
+                private cookie: CookieManagementService,
+                private passwordManagerService: PasswordManagerService
+    ) {
+        merge(this.email.statusChanges, this.email.valueChanges)
+            .pipe(takeUntilDestroyed())
+            .subscribe(() => this.updateErrorMessage());
     }
 
-    this.render.setStyle(document.body,
-      'background-image',
-      'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
-    );
-    this.render.setStyle(document.body, 'opacity', '0.8');
+    updateErrorMessage() {
+        if (this.email.hasError('required')) {
+            this.errorMessage = 'You must enter a value';
+        } else if (this.email.hasError('email')) {
+            this.errorMessage = 'Not a valid email';
+        } else {
+            this.errorMessage = '';
+        }
+    }
 
+    // user login
+    login() {
+        this.usersAll.forEach((data) => {
 
-  }
+            if ((data.userEmail == this.email.value) && (this.passwordManagerService.decrypt(data.userPasswords) == this.password.value)) {
+                const userData = {
+                    userEmail: this.email.value,
+                    userPassword: data.userPasswords
+                }
+                this.userService.globalUserEmail = data.userEmail;
+                this.userService.globalUserRole = data.userRole;
 
+                this.cookie.createCookie("userData", JSON.stringify(userData));
+                this.router.navigateByUrl("/dashboard").then();
 
+            } else {
+                console.log("invalid email or password");
+            }
+        });
+    }
+
+    // load user emails & passwords
+    private loadUsersData = () => {
+        this.dataBase.collection("users").get().subscribe((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                let usersData: any = doc.data();
+                this.usersAll.push({
+                    userEmail: usersData.email,
+                    userPasswords: usersData.password,
+                    userRole: usersData.role
+                });
+            });
+        });
+    }
+
+    ngOnInit(): void {
+        this.loadUsersData();
+
+        if (this.cookie.isExistCookie("userData")) {
+            this.router.navigateByUrl("/dashboard/home").then();
+        }
+
+        this.render.setStyle(document.body,
+            'background-image',
+            'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
+        );
+        this.render.setStyle(document.body, 'opacity', '0.8');
+    }
 }

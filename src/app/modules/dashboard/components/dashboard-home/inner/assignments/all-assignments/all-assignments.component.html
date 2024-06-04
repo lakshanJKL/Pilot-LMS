@@ -36,7 +36,12 @@
                   <mat-spinner diameter="30" *ngIf="loading" value="{{ uploadRate | async }}"></mat-spinner>
                 </div>
                 <div class="ops-block">
-                  <button mat-raised-button class="ops-btn" style="background-color: rgba(175, 175, 189, 0.85);">
+                  <button
+                          mat-raised-button
+                          class="ops-btn"
+                          style="background-color: rgba(175, 175, 189, 0.85);"
+                          (click)="viewBtn()"
+                  >
                     View
                   </button>
                   <button

@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="user-main-block">
+        <div class="user-inner-block">
+            <div class="user-table">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="tbl-context">
+                                No.
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tbl-context">
+                                Name
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tbl-context">
+                                Email
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tbl-context">
+                                Role
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tbl-context">
+                                Operations
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let user of userObject; let indexNum = index ">
+                        <td>
+                            <div class="tbl-context">
+                                <span>{{indexNum}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tbl-context">
+                                <span>{{user.userName}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tbl-context">
+                                <span> {{user.userEmail}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tbl-context">
+                                <mat-radio-group color="primary" [formControl]="userRoleRdBtn">
+                                    <mat-radio-button value="student" [checked]="user.studentChecked">Student
+                                    </mat-radio-button>
+                                    <mat-radio-button value="teacher" [checked]="user.teacherChecked">Teacher
+                                    </mat-radio-button>
+                                    <mat-radio-button value="admin" [checked]="user.adminChecked">Admin
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tbl-context">
+                                <button mat-raised-button class="update-btn"
+                                        (click)="updateUserRole(user.userId,indexNum)">
+                                    Update
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
