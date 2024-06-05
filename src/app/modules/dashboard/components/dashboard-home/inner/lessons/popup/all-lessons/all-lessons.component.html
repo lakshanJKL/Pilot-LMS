@@ -5,7 +5,10 @@
                 <span>{{courseTitle}}</span>
             </div>
             <div class="add-btn">
-                <button mat-fab matTooltip="Add new lesson" color="accent" (click)="createLesson()">
+                <button mat-fab matTooltip="Add new lesson"
+                        (click)="createLesson()"
+                        *ngIf="newLessonState"
+                >
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -31,8 +34,8 @@
                                 <b>{{lesson.values.title}}</b>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div class="content-block">
-                            <div class="btn-bar-block">
+                        <div class="content-block" >
+                            <div class="btn-bar-block" *ngIf="updateDeleteLessonState">
                                 <button mat-mini-fab matTooltip="Update" class="btn-lesson"
                                         (click)="updateLesson(lesson.id,lesson.values.title,lesson.values.content)">
                                     <mat-icon>sync_alt</mat-icon>

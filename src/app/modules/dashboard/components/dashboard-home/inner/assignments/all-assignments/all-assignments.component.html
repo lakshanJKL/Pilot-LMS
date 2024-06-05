@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="submission-btn-bars">
-                <div class="attach-block">
+                <div class="attach-block" *ngIf="attachState">
                   <input (change)="onChangeFile($event)" [formControl]="pdfFile" type="file">
                   <mat-spinner diameter="30" *ngIf="loading" value="{{ uploadRate | async }}"></mat-spinner>
                 </div>
@@ -40,7 +40,8 @@
                           mat-raised-button
                           class="ops-btn"
                           style="background-color: rgba(175, 175, 189, 0.85);"
-                          (click)="viewBtn()"
+                          *ngIf="viewBtnState"
+                          (click)="viewBtn(assignment.assignmentTitle)"
                   >
                     View
                   </button>
@@ -48,6 +49,7 @@
                     mat-raised-button
                     class="ops-btn"
                     style="background-color: rgba(135, 68, 211, 0.9);"
+                    *ngIf="updateBtnState"
                     (click)="updateBtn(assignment.assignmentId, assignment.assignmentTitle, assignment.dueDate,
                         assignment.assignmentDesc, assignment.lessonName)"
                   >
@@ -57,6 +59,7 @@
                     mat-raised-button
                     class="ops-btn"
                     style="background-color: rgba(255, 51, 51, 0.85);"
+                    *ngIf="deleteBtnState"
                     (click)="deleteAssignment(assignment.assignmentId)"
                   >
                     Delete
@@ -65,6 +68,7 @@
                     mat-raised-button
                     class="ops-btn"
                     style="background-color: rgba(80, 80, 255, 0.85);"
+                    *ngIf="submitBtnState"
                     (click)="submitAssignment(assignment.assignmentId)"
                   >
                     Submit

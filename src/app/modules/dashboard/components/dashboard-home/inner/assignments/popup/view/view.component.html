@@ -1,1 +1,44 @@
-<p>view works!</p>
+<div class="outer-view-box">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>
+        <div class="-tbl-context">
+          No.
+        </div>
+      </th>
+      <th>
+        <div class="-tbl-context">
+          Students
+        </div>
+      </th>
+      <th>
+        <div class="-tbl-context">
+          Assignments
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let data of submittedData; index as num">
+    <tr>
+      <td>
+        <div class="-tbl-context">
+          <span>{{num + 1}} </span>
+        </div>
+      </td>
+      <td>
+        <div class="-tbl-context">
+          <span>{{data.studentEmail}}</span>
+        </div>
+      </td>
+      <td>
+        <div class="-tbl-context">
+          <button mat-raised-button class="open-btn" (click)="openBtn(data.studentFile)">
+            open
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

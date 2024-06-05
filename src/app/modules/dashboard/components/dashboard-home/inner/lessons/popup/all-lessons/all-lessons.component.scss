@@ -75,10 +75,11 @@ $height: 100%;
     .content-header {
       width: $width;
       height: 50px;
-      @include display(flex, row, flex-start, center);
+      @include display(flex, row, center, center);
 
       span {
-        @include txtStyle(rgb(44, 41, 41), 18px, 500, 14px, normal);
+        margin-right: 8%;
+        @include txtStyle(rgba(70, 65, 65, 0.9), 16px, 510, 16px, normal);
       }
     }
 

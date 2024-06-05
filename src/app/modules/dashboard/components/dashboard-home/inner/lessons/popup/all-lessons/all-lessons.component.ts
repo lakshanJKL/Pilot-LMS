@@ -14,6 +14,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UpdateLessonComponent} from "../update-lesson/update-lesson.component";
+import {UserService} from "../../../../../../../../services/user.service";
 
 @Component({
     selector: 'app-all-lessons',
@@ -40,10 +41,14 @@ export class AllLessonsComponent implements OnInit {
     panelOpenState = false;
     courseTitle: any;
     lessonObject: any[] = [];
+    newLessonState: any;
+    updateDeleteLessonState: any;
+
 
     constructor(private dialog: MatDialog,
                 private dataBase: AngularFirestore,
                 private matSnackBar: MatSnackBar,
+                private userService:UserService,
                 @Inject(MAT_DIALOG_DATA) private data: any
     ) {
     }
@@ -102,7 +107,22 @@ export class AllLessonsComponent implements OnInit {
             });
     }
 
+
     ngOnInit(): void {
+      if (this.userService.globalUserRole == "student"){
+        this.newLessonState = false;
+        this.updateDeleteLessonState = false;
+
+      }else if(this.userService.globalUserRole == "teacher"){
+        this.newLessonState = true;
+        this.updateDeleteLessonState = true;
+
+      }else {
+        this.newLessonState = true;
+        this.updateDeleteLessonState = true;
+
+      }
+
         this.courseTitle = this.data.title;
         this.loadLessons();
     }

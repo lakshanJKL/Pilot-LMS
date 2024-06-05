@@ -10,6 +10,8 @@ import {UpdateCourseComponent} from "../popup/update-course/update-course.compon
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {AllLessonsComponent} from "../../lessons/popup/all-lessons/all-lessons.component";
+import {UserService} from "../../../../../../../services/user.service";
+import {flush} from "@angular/core/testing";
 
 @Component({
   selector: 'app-all-courses',
@@ -30,19 +32,24 @@ export class AllCoursesComponent implements OnInit {
   @ViewChild("tableRow", {static: true}) tableRow: any;
   courseObject: any[] = [];
   isState: boolean[] = Array(this.courseObject.length).fill(false);
+  updateCourseState: any;
+  deleteCourseState: any;
+  enrollState: any;
 
 
   constructor(private database: AngularFirestore,
-              private matDialog:MatDialog,
-              private matSnackBar:MatSnackBar,
-              private router:Router
-              ) {
+              private matDialog: MatDialog,
+              private matSnackBar: MatSnackBar,
+              private router: Router,
+              private userService: UserService
+  ) {
   }
 
 // visible & hide buttons (update,lessons,delete)
   visibleButtons(index: number) {
     this.isState[index] = true;
   }
+
   hideButtons() {
     this.isState = Array(this.courseObject.length).fill(false);
   }
@@ -51,37 +58,42 @@ export class AllCoursesComponent implements OnInit {
   rightSide() {
     this.tableRow.nativeElement.scrollBy({left: 250, behavior: 'smooth'});
   }
+
   leftSide() {
     this.tableRow.nativeElement.scrollBy({left: -250, behavior: 'smooth'});
   }
 
   // lessons popup window
-  lessonsWindow(id:any,title:any) {
-    this.matDialog.open(AllLessonsComponent,{
-      data:{
-        id:id,
-        title:title
-      }
+  lessonsWindow(id: any, title: any) {
+    if (this.enrollState == false) {
+      alert("Please enroll in  " + title + " course");
 
-    });
+    } else {
+      this.matDialog.open(AllLessonsComponent, {
+        data: {
+          id: id,
+          title: title
+        }
+      });
+    }
   }
 
 // update course
-  updateCourse(id:any,title:any,teacherName:any,description:any) {
-     this.matDialog.open(UpdateCourseComponent,{
-       data:{
-         id:id,
-         title:title,
-         teacherName:teacherName,
-         description:description
-       }
-     });
+  updateCourse(id: any, title: any, teacherName: any, description: any) {
+    this.matDialog.open(UpdateCourseComponent, {
+      data: {
+        id: id,
+        title: title,
+        teacherName: teacherName,
+        description: description
+      }
+    });
   }
 
-  deleteCourse(id:any) {
-    if(confirm("Are you sure?")){
+  deleteCourse(id: any) {
+    if (confirm("Are you sure?")) {
       const courseObj = this.database.collection("courses").doc(id);
-      courseObj.delete().then(()=>{
+      courseObj.delete().then(() => {
         this.matSnackBar.open("successfully deleted !", "close", {
           horizontalPosition: "center",
           verticalPosition: "top",
@@ -107,7 +119,7 @@ export class AllCoursesComponent implements OnInit {
               let teacherData: any = teacherDoc.data();
               if (teacherData && teacherData.role === 'teacher') {
                 this.courseObject.push({
-                  id:courseDoc.id,
+                  id: courseDoc.id,
                   title: courseData.title,
                   teacherName: teacherData.name,
                   description: courseData.description
@@ -118,8 +130,36 @@ export class AllCoursesComponent implements OnInit {
       });
   }
 
+// enroll the course
+  enrollBtn(index: any) {
+    if (confirm("Do you want to enroll in this course ?")) {
+      this.enrollState = true;
+      // if(id == courses.id){
+      //   this.enrollState = true;
+      // }
+
+    }
+  }
+
   ngOnInit(): void {
+    if (this.userService.globalUserRole == "student") {
+      this.enrollState = false;
+      this.updateCourseState = false;
+      this.deleteCourseState = false;
+
+    } else if (this.userService.globalUserRole == "teacher") {
+      this.enrollState = false;
+      this.updateCourseState = true;
+      this.deleteCourseState = true;
+
+    } else {
+      this.enrollState = false;
+      this.updateCourseState = true;
+      this.deleteCourseState = true;
+
+    }
     this.getCourses();
   }
+
 
 }

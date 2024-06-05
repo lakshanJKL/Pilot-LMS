@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatMiniFabButton} from "@angular/material/button";
@@ -19,184 +19,219 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {finalize, Observable} from "rxjs";
 import {UserService} from "../../../../../../../services/user.service";
 import {ViewComponent} from "../popup/view/view.component";
+import {CookieManagementService} from "../../../../../../../services/cookie-management.service";
 
 
 @Component({
-    selector: 'app-all-assignments',
-    standalone: true,
-    imports: [
-        MatExpansionPanel,
-        MatExpansionPanelDescription,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        MatIcon,
-        MatMiniFabButton,
-        MatTooltip,
-        NgForOf,
-        MatProgressSpinner,
-        NgIf,
-        ReactiveFormsModule,
-        AsyncPipe,
-        MatButton,
-        DatePipe
-    ],
-    templateUrl: './all-assignments.component.html',
-    styleUrls: ['./all-assignments.component.scss']
+  selector: 'app-all-assignments',
+  standalone: true,
+  imports: [
+    MatExpansionPanel,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatIcon,
+    MatMiniFabButton,
+    MatTooltip,
+    NgForOf,
+    MatProgressSpinner,
+    NgIf,
+    ReactiveFormsModule,
+    AsyncPipe,
+    MatButton,
+    DatePipe
+  ],
+  templateUrl: './all-assignments.component.html',
+  styleUrls: ['./all-assignments.component.scss']
 })
 export class AllAssignmentsComponent implements OnInit {
-    panelOpenState = false;
-    pdfFile: any;
-    selectedFile: any;
-    // @ts-ignore
-    uploadRate: Observable<any>;
-    // @ts-ignore
-    downloadLink: Observable<string | undefined>;
-    loading: any = false;
-    assignmentObject: any[] = [];
-    studentSubmissionsObject: any[] = [];
-    getUserid: any;
+  panelOpenState = false;
+  pdfFile: any;
+  selectedFile: any;
+  uploadRate: Observable<any> | undefined;
+  downloadLink: Observable<string | undefined> | undefined;
+  loading: any = false;
+  assignmentObject: any[] = [];
+  getUserid: any;
+  viewBtnState: any;
+  updateBtnState: any;
+  deleteBtnState: any;
+  submitBtnState: any;
+  attachState: any;
 
-    constructor(private dataBase: AngularFirestore,
-                private matDialog: MatDialog,
-                private matSnackBar: MatSnackBar,
-                private userService: UserService,
-                private storage: AngularFireStorage
-    ) {
+  constructor(private dataBase: AngularFirestore,
+              private matDialog: MatDialog,
+              private matSnackBar: MatSnackBar,
+              private userService: UserService,
+              private cookieService: CookieManagementService,
+              private storage: AngularFireStorage
+  ) {
+  }
+
+  // View
+  viewBtn(title: any) {
+    this.matDialog.open(ViewComponent, {
+      data: {
+        assignmentTitle: title
+      }
+    });
+  }
+
+  // Delete assignment
+  deleteAssignment(assignmentId: any) {
+    if (confirm("Are you sure?")) {
+      this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
+        this.matSnackBar.open("Successfully deleted!", "close", {
+          duration: 5000,
+          direction: "ltr",
+          horizontalPosition: "center",
+          verticalPosition: "top",
+        });
+        window.location.reload();
+      });
     }
+  }
 
-    //view
-    viewBtn() {
-      this.matDialog.open(ViewComponent);
-    }
+  // Update assignment & show popup window
+  updateBtn(id: any, title: any, dueDate: any, desc: any, lessonName: any) {
+    this.matDialog.open(UpdateAssignmentsComponent, {
+      data: {
+        assignmentId: id,
+        assignmentTitle: title,
+        lessonName: lessonName,
+        assignmentDueDate: dueDate,
+        assignmentDesc: desc
+      }
+    });
+  }
 
-    //delete assignment
-    deleteAssignment(assignmentId: any) {
-        if (confirm("Are you sure?")) {
-            this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
-                this.matSnackBar.open("Successfully deleted !", "close", {
-                    duration: 5000,
-                    direction: "ltr",
-                    horizontalPosition: "center",
-                    verticalPosition: "top",
+  private loadAssignments = () => {
+    this.dataBase.collection("assignments").get()
+      .subscribe((querySnapshot) => {
+        querySnapshot.forEach((assignmentDoc) => {
+          let assignmentData: any = assignmentDoc.data();
+
+          // Convert Firestore timestamp to Date object
+          let dueDate: Date = assignmentData.dueDate.toDate();
+
+          this.dataBase.collection("lessons").get()
+            .subscribe((querySnapshot) => {
+              querySnapshot.forEach((lessonDoc) => {
+
+                let lessonsData: any = lessonDoc.data();
+
+                if (assignmentData.lessonId == lessonDoc.id) {
+
+                  const assignmentValues = {
+                    assignmentId: assignmentDoc.id,
+                    assignmentTitle: assignmentData.title,
+                    dueDate: dueDate,
+                    lessonName: lessonsData.title,
+                    assignmentDesc: assignmentData.description
+                  }
+                  this.assignmentObject.push(assignmentValues);
+
+                }
+              });
+            });
+        });
+      });
+  }
+
+  // Assignment submission
+  submitAssignment(assignmentId: any) {
+    if (this.selectedFile == null) {
+      alert("Please choose your file");
+    } else {
+      this.loading = true;
+      const path = "files/" + "studentName/" + this.selectedFile.name;
+      const fileRef = this.storage.ref(path);
+      const task = this.storage.upload(path, this.selectedFile);
+
+      this.uploadRate = task.percentageChanges();
+
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          this.downloadLink = fileRef.getDownloadURL();
+        })
+      ).subscribe();
+
+      task.then(() => {
+
+        this.downloadLink?.subscribe((resp: any) => {
+          const updateSubmissions = this.dataBase.collection("assignments").doc(assignmentId);
+
+          updateSubmissions.get().subscribe((doc) => {
+
+            if (doc.exists) {
+              const assignmentData: any = doc.data();
+              const currentSubmissions = assignmentData.studentSubmissions || [];
+
+              currentSubmissions.push({
+                studentId: this.getUserid,
+                pdfFile: resp
+              });
+
+              updateSubmissions.update({studentSubmissions: currentSubmissions}).then(() => {
+                this.matSnackBar.open("Assignment submitted!", "close", {
+                  direction: "ltr",
+                  duration: 5000,
+                  horizontalPosition: "center",
+                  verticalPosition: "top"
                 });
                 window.location.reload();
-            });
-        }
-    }
-
-    // update assignment & show popup window
-    updateBtn(id: any, title: any, duaDate: any, desc: any, lessonName: any) {
-        this.matDialog.open(UpdateAssignmentsComponent, {
-            data: {
-                assignmentId: id,
-                assignmentTitle: title,
-                lessonName: lessonName,
-                assignmentDueDate: duaDate,
-                assignmentDesc: desc
+              });
             }
+          });
         });
+      });
+    }
+  }
 
+  onChangeFile(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // Get user id from database
+  private getEmail = (getEmail: any): any => {
+    this.dataBase.collection("users").get(getEmail)
+      .subscribe((querySnapShot) => {
+        querySnapShot.forEach((doc) => {
+          let usersData: any = doc.data();
+
+          if (usersData.email == getEmail) {
+            this.getUserid = doc.id;
+          }
+        });
+      });
+  }
+
+
+  ngOnInit(): void {
+    if (this.userService.globalUserRole == "student") {
+      this.attachState = true;
+      this.viewBtnState = false;
+      this.updateBtnState = false;
+      this.deleteBtnState = false;
+      this.submitBtnState = true;
+
+
+    } else if (this.userService.globalUserRole == "teacher") {
+      this.attachState = false;
+      this.viewBtnState = true;
+      this.updateBtnState = true;
+      this.deleteBtnState = true;
+      this.submitBtnState = false;
+
+    } else {
+      this.attachState = true;
+      this.viewBtnState = true;
+      this.updateBtnState = true;
+      this.deleteBtnState = true;
+      this.submitBtnState = true;
     }
 
-   private loadAssignments = () => {
-        this.dataBase.collection("assignments").get()
-            .subscribe((querySnapshot) => {
-                querySnapshot.forEach((assignmentDoc) => {
-                    let assignmentData: any = assignmentDoc.data();
-
-                    // Convert Firestore timestamp to  Date object
-                    let dueDate: Date = assignmentData.dueDate.toDate();
-
-                    this.dataBase.collection("lessons").get()
-                        .subscribe((querySnapshot) => {
-                            querySnapshot.forEach((lessonDoc) => {
-
-                                let lessonsData: any = lessonDoc.data();
-
-                                if (assignmentData.lessonId == lessonDoc.id) {
-
-                                    const assignmentValues = {
-                                        assignmentId: assignmentDoc.id,
-                                        assignmentTitle: assignmentData.title,
-                                        dueDate: dueDate,
-                                        lessonName: lessonsData.title,
-                                        assignmentDesc: assignmentData.description
-                                    }
-                                    this.assignmentObject.push(assignmentValues);
-
-                                }
-                            });
-                        });
-                });
-            });
-    }
-
-// assignment submission
-    submitAssignment(assignmentId: any) {
-
-        if (this.selectedFile == null) {
-            alert("please choose your file");
-
-        } else {
-            this.loading = true;
-            const path = "files/" + "studentName/" + this.selectedFile.name;
-            const fileRef = this.storage.ref(path);
-            const task = this.storage.upload(path, this.selectedFile);
-
-            this.uploadRate = task.percentageChanges();
-
-            task.snapshotChanges().pipe(
-                finalize(() => {
-                    this.downloadLink = fileRef.getDownloadURL();
-                })
-            ).subscribe();
-
-            task.then(() => {
-                this.downloadLink.subscribe((resp: any) => {
-
-                    const studentSubmissions = {
-                        studentId: this.getUserid,
-                        pdfFile: resp
-                    }
-
-                    const updateSubmissions = this.dataBase.collection("assignments").doc(assignmentId);
-                    updateSubmissions.update({studentSubmissions: studentSubmissions}).then(() => {
-                        this.matSnackBar.open("Assignment submitted !", "close", {
-                            direction: "ltr",
-                            duration: 5000,
-                            horizontalPosition: "center",
-                            verticalPosition: "top"
-                        });
-                        window.location.reload();
-                    });
-                });
-            });
-        }
-    }
-
-    onChangeFile(event: any) {
-        this.selectedFile = event.target.files[0];
-    }
-
-    // get user id from database
-    private getEmail = (getEmail: any): any => {
-        this.dataBase.collection("users").get(getEmail)
-            .subscribe((querySnapShot) => {
-                querySnapShot.forEach((doc) => {
-                    let usersData: any = doc.data();
-
-                    if (usersData.email == getEmail) {
-                        this.getUserid = doc.id
-                    }
-
-                });
-            });
-    }
-
-    ngOnInit(): void {
-        this.getEmail(this.userService.globalUserEmail);
-        this.loadAssignments();
-    }
-
-
+    this.getEmail(this.userService.globalUserEmail);
+    this.loadAssignments();
+  }
 }

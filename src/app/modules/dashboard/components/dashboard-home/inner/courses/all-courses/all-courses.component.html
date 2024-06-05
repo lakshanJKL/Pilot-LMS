@@ -14,20 +14,33 @@
       </td>
       <td *ngFor="let course of courseObject; let i = index">
         <div class="c-box" (mouseenter)="visibleButtons(i)" (mouseleave)="hideButtons()">
+          <span *ngIf="enrollState">
+            Enrolled
+          </span>
           <div class="title-block">
             <div class="inner-tittle">
               <span>{{course.title}}</span>
             </div>
           </div>
           <div class="container">
-            <button mat-mini-fab matTooltip="Update"  class="update-btn" *ngIf="isState[i]"
+            <button mat-mini-fab matTooltip="Update"
+                    class="update-btn" *ngIf="isState[i] && updateCourseState"
                     (click)="updateCourse(course.id,course.title,course.teacherName,course.description)">
               <mat-icon>sync_alt</mat-icon>
             </button>
-            <button mat-mini-fab matTooltip="Lessons"  class="lesson-btn" *ngIf="isState[i]" (click)="lessonsWindow(course.id,course.title)">
+            <button mat-mini-fab matTooltip="Lessons"
+                    class="lesson-btn" *ngIf="isState[i]"
+                    (click)="lessonsWindow(course.id,course.title)">
               <mat-icon>auto_stories</mat-icon>
             </button>
-            <button mat-mini-fab matTooltip="Delete"  class="delete-btn" *ngIf="isState[i]" (click)="deleteCourse(course.id)">
+            <button mat-mini-fab matTooltip="Enroll"
+                    class="enroll-btn" *ngIf="isState[i]"
+                    (click)="enrollBtn(course.id)">
+              <mat-icon>legend_toggle</mat-icon>
+            </button>
+            <button mat-mini-fab matTooltip="Delete"
+                    class="delete-btn" *ngIf="isState[i] && deleteCourseState"
+                    (click)="deleteCourse(course.id)">
               <mat-icon>delete_forever</mat-icon>
             </button>
           </div>

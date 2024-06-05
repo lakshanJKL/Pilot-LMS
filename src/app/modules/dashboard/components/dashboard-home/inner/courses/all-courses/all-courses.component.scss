@@ -57,9 +57,14 @@ table {
         box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
         @include display(flex, column, center, center);
 
+        span{
+          margin-top: 4%;
+          @include txtStyle(rgb(255, 255, 255), 16px, 500, 13px, normal);
+        }
+
         .title-block {
           width: $width;
-          height: 60%;
+          height: 50%;
           @include display();
 
           .inner-tittle {
@@ -74,15 +79,22 @@ table {
         }
 
         .container {
-          @include display(flex, row, space-between, center);
+          @include display(flex, row, center, center);
 
            .update-btn{
+            margin-right: 10px;
              background-color: rgba(36, 255, 161, 0.99);
            }
           .lesson-btn{
-            background-color: rgba(106, 106, 246, 0.85);
+            margin-right: 10px;
+            background-color: rgba(150, 27, 201, 0.88);
+          }
+          .enroll-btn{
+            margin-right: 10px;
+            background-color: rgba(14, 166, 19, 0.95);
           }
           .Delete{
+            margin-left: 10px;
             background-color: rgba(217, 46, 46, 0.99);
           }
         }

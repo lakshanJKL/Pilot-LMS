@@ -1,0 +1,65 @@
+$width: 100%;
+$innerWidth: 95%;
+$innerHeight: 95%;
+$height: 100%;
+
+@mixin display($flex: flex, $direction: row, $content: center, $align: center) {
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+}
+
+@mixin txtStyle($color, $f-size, $f-weight, $l-height, $f-style) {
+  color: $color;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $l-height;
+  font-style: $f-style;
+}
+
+@mixin scrollbarStyle($trackColor, $thumbColor) {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $trackColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+    border-radius: 10px;
+    border: 3px solid $trackColor;
+    height: 5px;
+  }
+}
+
+.outer-view-box {
+  width: 400px;
+  height: 400px;
+
+  .table {
+    width: $width;
+
+    .-tbl-context {
+      @include display();
+
+      span {
+        margin-top: 3%;
+      }
+
+      .open-btn {
+        color: white;
+        border-radius: 5px;
+        background-color: rgb(159, 107, 213);
+
+        &:hover {
+          color: white;
+          border-radius: 5px;
+          background-color: rgb(118, 21, 222);
+        }
+      }
+    }
+  }
+}

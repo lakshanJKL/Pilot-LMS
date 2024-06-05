@@ -16,53 +16,58 @@ $m-top: 2%;
   line-height: $l-height;
   font-style: $f-style;
 }
+.outer-box{
+  width: 500px;
+  height: 500px;
 
-.container{
-  @include display(flex, row, center, none);
+  .container{
+    @include display(flex, row, center, none);
 
-  .outer-update-assigment {
-    @include display(flex, column, center, flex-start);
+    .outer-update-assigment {
+      @include display(flex, column, center, flex-start);
 
-    .title-area {
-      width: $width;
-      height: $height;
-      @include display();
-
-      span {
-        @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
-      }
-    }
-
-    .form-group {
-      width:480px;
-      height: 340px;
-
-      .custom-mat-form-field {
-        margin-top: $m-top;
+      .title-area {
         width: $width;
+        height: $height;
+        @include display();
 
-        button.example-custom-date-class {
-          background: orange;
-          border-radius: 100%;
+        span {
+          @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
         }
       }
 
-      .update-btn-block {
-        width: $width;
-        @include display(flex, row, flex-end, center);
+      .form-group {
+        width:480px;
+        height: 340px;
 
-        .update-btn {
-          border-radius: 4px;
-          background-color: rgba(7, 7, 243, 0.8);
-          border: none;
-          text-align: center;
-          padding: 20px;
-          width: 40%;
-          transition: all 0.5s;
-          cursor: pointer;
-          margin: 5px;
-          @include txtStyle(white, 14px, 500, 12px, normal);
+        .custom-mat-form-field {
+          margin-top: $m-top;
+          width: $width;
+
+          button.example-custom-date-class {
+            background: orange;
+            border-radius: 100%;
+          }
         }
+
+        .update-btn-block {
+          width: $width;
+          @include display(flex, row, flex-end, center);
+
+          .update-btn {
+            border-radius: 4px;
+            background-color: rgba(7, 7, 243, 0.8);
+            border: none;
+            text-align: center;
+            padding: 20px;
+            width: 40%;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            @include txtStyle(white, 14px, 500, 12px, normal);
+          }
+        }
+
       }
 
     }
@@ -70,5 +75,3 @@ $m-top: 2%;
   }
 
 }
-
-

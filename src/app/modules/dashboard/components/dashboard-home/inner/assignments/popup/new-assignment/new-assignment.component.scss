@@ -17,58 +17,61 @@ $m-top: 2%;
   font-style: $f-style;
 }
 
-.container{
-  @include display(flex, row, center, none);
+.-outer-box{
+  width: 500px;
+  height: 500px;
 
-  .outer-new-assigment {
-    @include display(flex, column, center, flex-start);
+  .container{
+    @include display(flex, row, center, none);
 
-    .title-area {
-      width: $width;
-      height: $height;
-      @include display();
+    .outer-new-assigment {
+      @include display(flex, column, center, flex-start);
 
-      span {
-        @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
-      }
-    }
-
-    .form-group {
-      width:480px;
-      height: 340px;
-
-      .custom-mat-form-field {
-        margin-top: $m-top;
+      .title-area {
         width: $width;
+        height: $height;
+        @include display();
 
-        button.example-custom-date-class {
-          background: orange;
-          border-radius: 100%;
+        span {
+          @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
         }
       }
 
-      .save-btn-block {
-        width: $width;
-        @include display(flex, row, flex-end, center);
+      .form-group {
+        width:480px;
+        height: 340px;
 
-        .save-btn {
-          border-radius: 4px;
-          background-color: rgba(7, 7, 243, 0.8);
-          border: none;
-          text-align: center;
-          padding: 20px;
-          width: 36%;
-          transition: all 0.5s;
-          cursor: pointer;
-          margin: 5px;
-          @include txtStyle(white, 14px, 500, 12px, normal);
+        .custom-mat-form-field {
+          margin-top: $m-top;
+          width: $width;
+
+          button.example-custom-date-class {
+            background: orange;
+            border-radius: 100%;
+          }
+        }
+
+        .save-btn-block {
+          width: $width;
+          @include display(flex, row, flex-end, center);
+
+          .save-btn {
+            border-radius: 4px;
+            background-color: rgba(7, 7, 243, 0.8);
+            border: none;
+            text-align: center;
+            padding: 20px;
+            width: 36%;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            @include txtStyle(white, 14px, 500, 12px, normal);
+          }
         }
       }
-
     }
-
   }
-
 }
+
 
 

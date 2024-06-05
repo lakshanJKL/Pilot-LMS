@@ -5,12 +5,18 @@
     </div>
     <div class="btn-bar">
       <div class="inner-btn-bar">
-        <button mat-raised-button class="br-btn" style="vertical-align:middle"
+        <button mat-raised-button class="br-btn"
+                style="vertical-align:middle"
+                *ngIf="manageBtnState"
                 routerLink="/dashboard/home/users"><span>Management</span></button>
-        <button mat-raised-button class="br-btn" style="vertical-align:middle"
+        <button mat-raised-button class="br-btn"
+                style="vertical-align:middle"
                 routerLink="/dashboard/home/courses/all">
           <span>Courses</span></button>
-        <button mat-raised-button class="new-c-btn" (click)="newAssignment()">+ New Assignment</button>
+        <button mat-raised-button class="new-c-btn"
+                *ngIf="newAssignmentBtnState"
+                (click)="newAssignment()">+ New Assignment
+        </button>
       </div>
     </div>
   </div>
