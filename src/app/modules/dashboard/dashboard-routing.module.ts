@@ -36,12 +36,14 @@ const routes: Routes = [
         path: "users",
         loadComponent:
           () => import("./components/dashboard-home/inner/management/user-management/user-management.component")
-            .then(e => e.UserManagementComponent),children:[
-          {path:"",redirectTo:"/dashboard/home/users/all",pathMatch: "full"},
-          {path:"all",
+            .then(e => e.UserManagementComponent), children: [
+          {path: "", redirectTo: "/dashboard/home/users/all", pathMatch: "full"},
+          {
+            path: "all",
             loadComponent:
-              ()=>import("./components/dashboard-home/inner/management/user-management/all-users/all-users.component")
-                .then(e=>e.AllUsersComponent)}
+              () => import("./components/dashboard-home/inner/management/user-management/all-users/all-users.component")
+                .then(e => e.AllUsersComponent)
+          }
         ]
       }
     ]

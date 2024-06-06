@@ -36,10 +36,10 @@ export class CookieManagementService {
     this.cookies.delete(name, "/");
   }
 
-  findCookieValue(name:any){
-    if (this.isExistCookie(name)){
+  findCookieValue(name: any) {
+    if (this.isExistCookie(name)) {
       return this.cookies.get(name);
-    }else {
+    } else {
       return undefined
     }
   }

@@ -20,6 +20,7 @@ import {finalize, Observable} from "rxjs";
 import {UserService} from "../../../../../../../services/user.service";
 import {ViewComponent} from "../popup/view/view.component";
 import {CookieManagementService} from "../../../../../../../services/cookie-management.service";
+import swAlert from "sweetalert";
 
 
 @Component({
@@ -45,7 +46,8 @@ import {CookieManagementService} from "../../../../../../../services/cookie-mana
   styleUrls: ['./all-assignments.component.scss']
 })
 export class AllAssignmentsComponent implements OnInit {
-  panelOpenState = false;
+
+  panelOpenState: boolean = false;
   pdfFile: any;
   selectedFile: any;
   uploadRate: Observable<any> | undefined;
@@ -63,12 +65,11 @@ export class AllAssignmentsComponent implements OnInit {
               private matDialog: MatDialog,
               private matSnackBar: MatSnackBar,
               private userService: UserService,
-              private cookieService: CookieManagementService,
               private storage: AngularFireStorage
   ) {
   }
 
-  // View
+  // load View popup window
   viewBtn(title: any) {
     this.matDialog.open(ViewComponent, {
       data: {
@@ -79,20 +80,30 @@ export class AllAssignmentsComponent implements OnInit {
 
   // Delete assignment
   deleteAssignment(assignmentId: any) {
-    if (confirm("Are you sure?")) {
-      this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
-        this.matSnackBar.open("Successfully deleted!", "close", {
-          duration: 5000,
-          direction: "ltr",
-          horizontalPosition: "center",
-          verticalPosition: "top",
-        });
-        window.location.reload();
+    swAlert({
+      title: "Are you sure?",
+      text: "Are you sure that you want to delete this assignment?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then(willDelete => {
+        if (willDelete) {
+          this.dataBase.collection("assignments").doc(assignmentId).delete().then(() => {
+            this.matSnackBar.open("Successfully deleted!", "close", {
+              duration: 5000,
+              direction: "ltr",
+              horizontalPosition: "center",
+              verticalPosition: "top",
+            });
+            window.location.reload();
+          }).catch(err => {
+            swAlert("Error !", err).then();
+          });
+        }
       });
-    }
   }
 
-  // Update assignment & show popup window
+  //load  Update assignment popup window
   updateBtn(id: any, title: any, dueDate: any, desc: any, lessonName: any) {
     this.matDialog.open(UpdateAssignmentsComponent, {
       data: {
@@ -105,43 +116,11 @@ export class AllAssignmentsComponent implements OnInit {
     });
   }
 
-  private loadAssignments = () => {
-    this.dataBase.collection("assignments").get()
-      .subscribe((querySnapshot) => {
-        querySnapshot.forEach((assignmentDoc) => {
-          let assignmentData: any = assignmentDoc.data();
-
-          // Convert Firestore timestamp to Date object
-          let dueDate: Date = assignmentData.dueDate.toDate();
-
-          this.dataBase.collection("lessons").get()
-            .subscribe((querySnapshot) => {
-              querySnapshot.forEach((lessonDoc) => {
-
-                let lessonsData: any = lessonDoc.data();
-
-                if (assignmentData.lessonId == lessonDoc.id) {
-
-                  const assignmentValues = {
-                    assignmentId: assignmentDoc.id,
-                    assignmentTitle: assignmentData.title,
-                    dueDate: dueDate,
-                    lessonName: lessonsData.title,
-                    assignmentDesc: assignmentData.description
-                  }
-                  this.assignmentObject.push(assignmentValues);
-
-                }
-              });
-            });
-        });
-      });
-  }
-
   // Assignment submission
   submitAssignment(assignmentId: any) {
     if (this.selectedFile == null) {
-      alert("Please choose your file");
+      swAlert("Alert !", "Please select your file").then();
+
     } else {
       this.loading = true;
       const path = "files/" + "studentName/" + this.selectedFile.name;
@@ -180,6 +159,10 @@ export class AllAssignmentsComponent implements OnInit {
                   verticalPosition: "top"
                 });
                 window.location.reload();
+
+              }).catch(err => {
+
+                swAlert("Error !", err).then();
               });
             }
           });
@@ -188,6 +171,7 @@ export class AllAssignmentsComponent implements OnInit {
     }
   }
 
+  // catch selected file
   onChangeFile(event: any) {
     this.selectedFile = event.target.files[0];
   }
@@ -206,6 +190,38 @@ export class AllAssignmentsComponent implements OnInit {
       });
   }
 
+  private loadAssignments = () => {
+    this.dataBase.collection("assignments").get()
+      .subscribe((querySnapshot) => {
+        querySnapshot.forEach((assignmentDoc) => {
+          let assignmentData: any = assignmentDoc.data();
+
+          // Convert Firestore timestamp to Date object
+          let dueDate: Date = assignmentData.dueDate.toDate();
+
+          this.dataBase.collection("lessons").get()
+            .subscribe((querySnapshot) => {
+              querySnapshot.forEach((lessonDoc) => {
+
+                let lessonsData: any = lessonDoc.data();
+
+                if (assignmentData.lessonId == lessonDoc.id) {
+
+                  const assignmentValues = {
+                    assignmentId: assignmentDoc.id,
+                    assignmentTitle: assignmentData.title,
+                    dueDate: dueDate,
+                    lessonName: lessonsData.title,
+                    assignmentDesc: assignmentData.description
+                  }
+                  this.assignmentObject.push(assignmentValues);
+
+                }
+              });
+            });
+        });
+      });
+  }
 
   ngOnInit(): void {
     if (this.userService.globalUserRole == "student") {

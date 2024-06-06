@@ -17,11 +17,11 @@ $m-top: 2%;
   font-style: $f-style;
 }
 
-.-outer-box{
+.-outer-box {
   width: 500px;
   height: 500px;
 
-  .container{
+  .container {
     @include display(flex, row, center, none);
 
     .outer-new-assigment {
@@ -38,7 +38,7 @@ $m-top: 2%;
       }
 
       .form-group {
-        width:480px;
+        width: 480px;
         height: 340px;
 
         .custom-mat-form-field {

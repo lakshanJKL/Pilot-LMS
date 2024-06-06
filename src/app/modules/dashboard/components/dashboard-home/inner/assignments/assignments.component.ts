@@ -30,6 +30,7 @@ export class AssignmentsComponent implements OnInit {
   ) {
   }
 
+  // load popup create assignment window
   newAssignment() {
     this.matDialog.open(NewAssignmentComponent);
   }

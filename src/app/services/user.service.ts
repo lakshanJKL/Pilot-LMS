@@ -1,20 +1,23 @@
 import {Injectable} from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class UserService {
 
-    constructor() {
-    }
+  constructor() {
+  }
 
-    user: any = {
-        name: null,
-        email: null,
-        password: null,
-        role: null
-    }
+  // user
+  user: any = {
+    name: null,
+    email: null,
+    password: null,
+    role: null
+  }
 
-    globalUserEmail: any;
-    globalUserRole: any;
+// username & password
+
+  globalUserEmail: any;
+  globalUserRole: any;
 }

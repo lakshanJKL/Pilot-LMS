@@ -16,11 +16,12 @@ $m-top: 2%;
   line-height: $l-height;
   font-style: $f-style;
 }
-.outer-box{
+
+.outer-box {
   width: 500px;
   height: 500px;
 
-  .container{
+  .container {
     @include display(flex, row, center, none);
 
     .outer-update-assigment {
@@ -37,7 +38,7 @@ $m-top: 2%;
       }
 
       .form-group {
-        width:480px;
+        width: 480px;
         height: 340px;
 
         .custom-mat-form-field {
@@ -67,11 +68,7 @@ $m-top: 2%;
             @include txtStyle(white, 14px, 500, 12px, normal);
           }
         }
-
       }
-
     }
-
   }
-
 }

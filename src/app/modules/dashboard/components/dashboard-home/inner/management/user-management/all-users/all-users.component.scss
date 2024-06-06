@@ -68,6 +68,7 @@ $height: 100%;
 
             .update-btn {
               color: white;
+              margin-right: 1%;
               border-radius: 5px;
               background-color: rgba(76, 76, 248, 0.85);
 
@@ -75,6 +76,19 @@ $height: 100%;
                 color: white;
                 border-radius: 5px;
                 background-color: rgba(15, 15, 145, 0.95);
+              }
+            }
+
+            .delete-btn {
+              color: white;
+              margin-left: 1%;
+              border-radius: 5px;
+              background-color: rgba(234, 40, 40, 0.95);
+
+              &:hover {
+                color: white;
+                border-radius: 5px;
+                background-color: rgb(187, 6, 6);
               }
             }
           }

@@ -20,34 +20,35 @@ import {UserService} from "../../../../../../services/user.service";
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })
-export class CoursesComponent implements OnInit{
-  newCourseState:any;
+export class CoursesComponent implements OnInit {
+
+  newCourseState: any;
   manageBtnState: any;
 
-  constructor(private matDialog:MatDialog,
-              private userService:UserService
+  constructor(private matDialog: MatDialog,
+              private userService: UserService
   ) {
   }
 
+  //show create course window
   newCourse() {
-     this.matDialog.open(NewCourseComponent);
+    this.matDialog.open(NewCourseComponent);
   }
 
   ngOnInit(): void {
 
-    if (this.userService.globalUserRole == "student"){
-       this.newCourseState = false;
-       this.manageBtnState = false;
+    if (this.userService.globalUserRole == "student") {
+      this.newCourseState = false;
+      this.manageBtnState = false;
 
-    }else if(this.userService.globalUserRole == "teacher"){
+    } else if (this.userService.globalUserRole == "teacher") {
       this.newCourseState = true;
       this.manageBtnState = false;
 
-    }else {
+    } else {
       this.newCourseState = true;
       this.manageBtnState = true;
 
     }
-
   }
 }

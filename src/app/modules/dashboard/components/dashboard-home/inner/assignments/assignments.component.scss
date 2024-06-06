@@ -1,5 +1,5 @@
-$Width:100%;
-$height:100%;
+$Width: 100%;
+$height: 100%;
 
 @mixin display($flex: flex, $direction: row, $content: center, $align: center) {
   display: $flex;
@@ -16,29 +16,30 @@ $height:100%;
   font-style: $f-style;
 }
 
-.assignment-header{
+.assignment-header {
   width: $Width;
   height: 50px;
   @include display();
 
-  .head-title{
+  .head-title {
     width: 25%;
     height: $height;
-    @include display(flex,row,flex-start,center);
+    @include display(flex, row, flex-start, center);
 
-    span{
+    span {
       @include txtStyle(rgb(31, 30, 30), 36px, 500, 14px, normal);
     }
   }
-  .btn-bar{
+
+  .btn-bar {
     flex: 1;
     height: $height;
-    @include display(flex,row,flex-end,center);
+    @include display(flex, row, flex-end, center);
 
-    .inner-btn-bar{
+    .inner-btn-bar {
       width: 70%;
       height: $height;
-      @include display(flex,row,flex-end,center);
+      @include display(flex, row, flex-end, center);
 
       .br-btn {
         border-radius: 4px;
@@ -54,11 +55,12 @@ $height:100%;
 
         span {
           cursor: pointer;
-          @include display(inline-block,none,none,none);
+          @include display(inline-block, none, none, none);
           @include txtStyle(white, 14px, 500, 14px, normal);
           position: relative;
           transition: 0.5s;
         }
+
         span:after {
           content: '\00bb';
           position: absolute;
@@ -67,15 +69,18 @@ $height:100%;
           right: -20px;
           transition: 0.5s;
         }
+
         &:hover span {
           padding-right: 25px;
         }
-        &:hover span:after{
+
+        &:hover span:after {
           opacity: 1;
           right: 0;
         }
       }
-      .new-c-btn{
+
+      .new-c-btn {
         border-radius: 4px;
         background-color: rgba(37, 150, 67, 0.9);
         border: none;
@@ -90,8 +95,7 @@ $height:100%;
     }
   }
 }
-
-.table-view{
+.table-view {
   margin-top: 6%;
   width: $Width;
   overflow: hidden;

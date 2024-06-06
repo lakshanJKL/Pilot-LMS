@@ -17,7 +17,7 @@ $m-top: 2%;
   font-style: $f-style;
 }
 
-.outer-update-lesson{
+.outer-update-lesson {
   @include display(flex, column, center, flex-start);
 
   .title-area {
@@ -29,25 +29,26 @@ $m-top: 2%;
       @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
     }
   }
+
   .form-group {
     width: 500px;
     height: 340px;
 
     .custom-mat-form-field {
-      margin-top:$m-top ;
+      margin-top: $m-top;
       width: $width;
 
-      .form-field-text-area{
+      .form-field-text-area {
         width: $width;
         height: 120px;
       }
     }
 
-    .btn-update-block{
+    .btn-update-block {
       width: $width;
       @include display(flex, row, flex-end, center);
 
-      .update-btn{
+      .update-btn {
         border-radius: 4px;
         background-color: rgba(7, 7, 243, 0.8);
         border: none;
@@ -60,8 +61,6 @@ $m-top: 2%;
         @include txtStyle(white, 14px, 500, 12px, normal);
       }
     }
-
   }
-
 }
 

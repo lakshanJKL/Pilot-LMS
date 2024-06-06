@@ -8,12 +8,12 @@ import {NgIf} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
-import {emit} from "@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker";
 import {Router, RouterLink} from "@angular/router";
 import {CookieManagementService} from "../../services/cookie-management.service";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {PasswordManagerService} from "../../services/password-manager.service";
 import {UserService} from "../../services/user.service";
+import swAlert from 'sweetalert';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +35,7 @@ import {UserService} from "../../services/user.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
   hide = true;
   email = new FormControl('', [Validators.required, Validators.email]);
   password: any = new FormControl("", Validators.required);
@@ -66,24 +67,28 @@ export class LoginComponent implements OnInit {
 
   // user login
   login() {
-    this.usersAll.forEach((data) => {
+    const checkEmailPassword =
+      this.usersAll.find(data => (data.userEmail == this.email.value)
+        && (this.passwordManagerService.decrypt(data.userPasswords) == this.password.value));
 
-      if ((data.userEmail == this.email.value) && (this.passwordManagerService.decrypt(data.userPasswords) == this.password.value)) {
-        const userData = {
-          userEmail: data.userEmail,
-          userPassword: data.userPasswords,
-          userRole: data.userRole
-        }
-        this.userService.globalUserEmail = data.userEmail;
-        this.userService.globalUserRole = data.userRole;
+    if (checkEmailPassword) {
 
-        this.cookie.createCookie("userData", JSON.stringify(userData));
-        this.router.navigateByUrl("/dashboard").then();
-
-      } else {
-        console.log("invalid email or password");
+      const userData = {
+        userEmail: checkEmailPassword.userEmail,
+        userPassword: checkEmailPassword.userPasswords,
+        userRole: checkEmailPassword.userRole
       }
-    });
+      this.userService.globalUserEmail = checkEmailPassword.userEmail;
+      this.userService.globalUserRole = checkEmailPassword.userRole;
+
+      this.cookie.createCookie("userData", JSON.stringify(userData));
+      this.router.navigateByUrl("/dashboard").then();
+
+    } else {
+      swAlert("Try Again !", "Invalid email or password").then();
+    }
+
+
   }
 
   // load user emails & passwords

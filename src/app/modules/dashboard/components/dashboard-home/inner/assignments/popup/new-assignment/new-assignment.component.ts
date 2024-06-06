@@ -18,6 +18,7 @@ import {
   MatDatepickerToggle
 } from "@angular/material/datepicker";
 import {provideNativeDateAdapter} from '@angular/material/core';
+import swAlert from "sweetalert";
 
 @Component({
   selector: 'app-new-assignment',
@@ -46,22 +47,20 @@ import {provideNativeDateAdapter} from '@angular/material/core';
   styleUrl: './new-assignment.component.scss'
 })
 export class NewAssignmentComponent implements OnInit {
+
+  loading = false;
+  lessonsOptions: any[] = [];
+  lessonObject: any[] = [];
+  filteredOptions: Observable<string[]> = new Observable<string[]>();
+
   // form controls
   lessonControl = new FormControl('', [Validators.required]);
   descriptionControl = new FormControl("", [Validators.required]);
   titleControl = new FormControl("", [Validators.required]);
   dateControl = new FormControl("", [Validators.required]);
 
-  // variables
-  loading = false;
-  lessonsOptions: any[] = [];
-  lessonObject: any[] = [];
-  filteredOptions: Observable<string[]> = new Observable<string[]>();
-
-
   constructor(private matDialog: MatDialog,
               private dataBase: AngularFirestore,
-              private router: Router,
               private matSnackBar: MatSnackBar
   ) {
   }
@@ -82,7 +81,7 @@ export class NewAssignmentComponent implements OnInit {
 
   // create assignment
   saveBtn() {
-    this.loading=true;
+    this.loading = true;
     this.dataBase.collection("lessons").get().subscribe((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         let lessons: any = doc.data();
@@ -105,6 +104,9 @@ export class NewAssignmentComponent implements OnInit {
             });
             this.matDialog.closeAll();
             window.location.reload();
+
+          }).catch(err => {
+            swAlert("Error !", err).then();
           });
 
         }

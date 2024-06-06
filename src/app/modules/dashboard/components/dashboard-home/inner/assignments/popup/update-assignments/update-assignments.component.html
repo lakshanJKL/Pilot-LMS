@@ -1,62 +1,62 @@
 <div class="outer-box">
-<div class="container" >
-  <div class="outer-update-assigment">
-    <div class="title-area">
-      <span>Update Assignment</span>
-    </div>
-    <form>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="custom-mat-form-field">
-          <mat-label>Assignment Title</mat-label>
-          <input matInput
-                 [formControl]="titleControl"
-                 placeholder="Ex: java script assignment 1 (max length 50)"
-                 maxlength="50"
-          >
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="custom-mat-form-field">
-          <mat-label>Select Lesson</mat-label>
-          <input type="text"
-                 placeholder="Ex; install software"
-                 [formControl]="lessonControl"
-                 matInput
-                 [matAutocomplete]="autoLesson">
-          <mat-autocomplete autoActiveFirstOption #autoLesson="matAutocomplete">
-            <mat-option *ngFor="let options of filteredOptions | async "
-                        [value]="options">{{options}}</mat-option>
-
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="custom-mat-form-field example-full-width">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker"
-                 [formControl]="dateControl"
-          >
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="custom-mat-form-field">
-          <mat-label>Description</mat-label>
-          <textarea matInput
-                    [formControl]="descriptionControl"
-                    placeholder="Ex; assignment description (max length 150)"
-                    maxlength="150"
-
-          ></textarea>
-        </mat-form-field>
-        <div class="update-btn-block">
-          <button mat-raised-button class="update-btn" [disabled]="titleControl.invalid ||
-            descriptionControl.invalid || lessonControl.invalid || loading" (click)="updateBtn()">
-            Update Assignment
-          </button>
-        </div>
+  <div class="container">
+    <div class="outer-update-assigment">
+      <div class="title-area">
+        <span>Update Assignment</span>
       </div>
-    </form>
+      <form>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Assignment Title</mat-label>
+            <input matInput
+                   [formControl]="titleControl"
+                   placeholder="Ex: java script assignment 1 (max length 50)"
+                   maxlength="50"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Select Lesson</mat-label>
+            <input type="text"
+                   placeholder="Ex; install software"
+                   [formControl]="lessonControl"
+                   matInput
+                   [matAutocomplete]="autoLesson">
+            <mat-autocomplete autoActiveFirstOption #autoLesson="matAutocomplete">
+              <mat-option *ngFor="let options of filteredOptions | async "
+                          [value]="options">{{options}}</mat-option>
+
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="custom-mat-form-field example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker"
+                   [formControl]="dateControl"
+            >
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="custom-mat-form-field">
+            <mat-label>Description</mat-label>
+            <textarea matInput
+                      [formControl]="descriptionControl"
+                      placeholder="Ex; assignment description (max length 150)"
+                      maxlength="150"
+
+            ></textarea>
+          </mat-form-field>
+          <div class="update-btn-block">
+            <button mat-raised-button class="update-btn" [disabled]="titleControl.invalid ||
+            descriptionControl.invalid || lessonControl.invalid || loading" (click)="updateBtn()">
+              Update Assignment
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 

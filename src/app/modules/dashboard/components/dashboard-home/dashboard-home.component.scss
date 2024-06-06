@@ -19,34 +19,36 @@ $height: 100%;
 .home {
   width: $width;
   height: 75px;
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.38);
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.38);
   @include display();
 
   .user-details {
     width: 25%;
     height: $height;
-    @include display(flex,column,center,flex-start);
+    @include display(flex, column, center, flex-start);
 
-    .text{
+    .text {
       margin-top: 5%;
       margin-left: 3%;
       @include txtStyle(rgb(37, 36, 36), 18px, 500, 14px, normal);
     }
   }
-  .logo{
+
+  .logo {
     width: 50%;
     height: $height;
     @include display();
 
-    span{
+    span {
       @include txtStyle(#333, 40px, 500, 14px, normal);
       text-shadow: -0.01em -0.01em 0.01em #000;
     }
   }
-  .logout{
+
+  .logout {
     flex: 1;
     height: $height;
-    @include display(flex,row,flex-end,center);
+    @include display(flex, row, flex-end, center);
 
 
     .logout-btn {
@@ -61,11 +63,12 @@ $height: 100%;
 
       span {
         cursor: pointer;
-        @include display(inline-block,none,none,none);
+        @include display(inline-block, none, none, none);
         @include txtStyle(white, 16px, 500, 14px, normal);
         position: relative;
         transition: 0.5s;
       }
+
       span:after {
         content: '\00bb';
         position: absolute;
@@ -74,14 +77,15 @@ $height: 100%;
         right: -20px;
         transition: 0.5s;
       }
+
       &:hover span {
         padding-right: 25px;
       }
-      &:hover span:after{
+
+      &:hover span:after {
         opacity: 1;
         right: 0;
       }
     }
-
   }
 }

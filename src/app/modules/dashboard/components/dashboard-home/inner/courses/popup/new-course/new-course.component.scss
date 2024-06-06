@@ -17,7 +17,7 @@ $m-top: 2%;
   font-style: $f-style;
 }
 
-.outer-new-course{
+.outer-new-course {
   @include display(flex, column, center, flex-start);
 
   .title-area {
@@ -29,19 +29,21 @@ $m-top: 2%;
       @include txtStyle(rgb(37, 36, 36), 25px, 500, 14px, normal);
     }
   }
+
   .form-group {
     width: 500px;
     height: 340px;
 
     .custom-mat-form-field {
-      margin-top:$m-top ;
+      margin-top: $m-top;
       width: $width;
     }
-    .save-btn-block{
+
+    .save-btn-block {
       width: $width;
       @include display(flex, row, flex-end, center);
 
-      .save-btn{
+      .save-btn {
         border-radius: 4px;
         background-color: rgba(7, 7, 243, 0.8);
         border: none;

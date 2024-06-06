@@ -14,7 +14,7 @@
       </td>
       <td *ngFor="let course of courseObject; let i = index">
         <div class="c-box" (mouseenter)="visibleButtons(i)" (mouseleave)="hideButtons()">
-          <span *ngIf="enrollState">
+          <span *ngIf="course.enrollState">
             Enrolled
           </span>
           <div class="title-block">
@@ -34,8 +34,8 @@
               <mat-icon>auto_stories</mat-icon>
             </button>
             <button mat-mini-fab matTooltip="Enroll"
-                    class="enroll-btn" *ngIf="isState[i]"
-                    (click)="enrollBtn(course.id)">
+                    class="enroll-btn" *ngIf="isState[i] && !course.enrollState && enrolBtnState"
+                    (click)="enrollBtn(i,course.id)">
               <mat-icon>legend_toggle</mat-icon>
             </button>
             <button mat-mini-fab matTooltip="Delete"
@@ -46,7 +46,7 @@
           </div>
           <div class="teacher-block">
             <div class="inner-teacher">
-              <span>Course conduct by :</span>
+              <span>Course conducted by :</span>
               <h3>{{course.teacherName}}</h3>
             </div>
           </div>

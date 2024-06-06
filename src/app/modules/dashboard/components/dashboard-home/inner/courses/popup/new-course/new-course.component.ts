@@ -10,6 +10,7 @@ import {MatButton} from "@angular/material/button";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import swAlert from "sweetalert";
 
 @Component({
   selector: 'app-new-course',
@@ -34,21 +35,20 @@ import {Router} from "@angular/router";
   styleUrl: './new-course.component.scss'
 })
 export class NewCourseComponent implements OnInit {
-  // form controls
-  teacherControl = new FormControl('', [Validators.required]);
-  descriptionControl = new FormControl("", [Validators.required]);
-  titleControl = new FormControl("", [Validators.required]);
 
-  // variables
   loading = false;
   teacherOptions: any[] = [];
   teacherObject: any[] = [];
   filteredOptions: Observable<string[]> = new Observable<string[]>();
 
+  // form controls
+  teacherControl = new FormControl('', [Validators.required]);
+  descriptionControl = new FormControl("", [Validators.required]);
+  titleControl = new FormControl("", [Validators.required]);
+
 
   constructor(private matDialog: MatDialog,
               private dataBase: AngularFirestore,
-              private router:Router,
               private matSnackBar: MatSnackBar
   ) {
   }
@@ -75,6 +75,9 @@ export class NewCourseComponent implements OnInit {
           });
           this.matDialog.closeAll();
           window.location.reload();
+        }).catch(err => {
+
+          swAlert("Error !", err).then();
         });
       }
     })

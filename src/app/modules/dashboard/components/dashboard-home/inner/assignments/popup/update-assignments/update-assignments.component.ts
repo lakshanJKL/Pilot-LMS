@@ -17,6 +17,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {provideNativeDateAdapter} from "@angular/material/core";
+import swAlert from "sweetalert";
 
 @Component({
   selector: 'app-update-assignments',
@@ -44,22 +45,20 @@ import {provideNativeDateAdapter} from "@angular/material/core";
   styleUrl: './update-assignments.component.scss'
 })
 export class UpdateAssignmentsComponent implements OnInit {
+
+  loading = false;
+  lessonsOptions: any[] = [];
+  lessonObject: any[] = [];
+  filteredOptions: Observable<string[]> = new Observable<string[]>();
+
   // form controls
   lessonControl = new FormControl('', [Validators.required]);
   descriptionControl = new FormControl("", [Validators.required]);
   titleControl = new FormControl("", [Validators.required]);
   dateControl = new FormControl("", [Validators.required]);
 
-  // variables
-  loading = false;
-  lessonsOptions: any[] = [];
-  lessonObject: any[] = [];
-  filteredOptions: Observable<string[]> = new Observable<string[]>();
-
-
   constructor(private matDialog: MatDialog,
               private dataBase: AngularFirestore,
-              private router: Router,
               private matSnackBar: MatSnackBar,
               @Inject(MAT_DIALOG_DATA) private data:any
   ) {
@@ -79,7 +78,7 @@ export class UpdateAssignmentsComponent implements OnInit {
   };
 
 
-  // create assignment
+  // update assignment
   updateBtn() {
     this.loading=true;
     this.dataBase.collection("lessons").get().subscribe((querySnapshot) => {
@@ -107,6 +106,9 @@ export class UpdateAssignmentsComponent implements OnInit {
             });
             this.matDialog.closeAll();
             window.location.reload();
+          }).catch(err=>{
+
+            swAlert("Error !",err ).then();
           });
         }
       });

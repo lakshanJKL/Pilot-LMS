@@ -91,32 +91,34 @@ $height: 100%;
       table {
         width: $width;
 
-       .content-block{
-         width: 100%;
+        .content-block {
+          width: 100%;
 
-         .btn-bar-block {
-           width: $width;
-           height: 60px;
-           @include display(flex,row,flex-end,center);
+          .btn-bar-block {
+            width: $width;
+            height: 60px;
+            @include display(flex, row, flex-end, center);
 
-           .btn-lesson{
-             margin-left: 2%;
-             background-color: rgba(7, 150, 91, 0.99);
-           }
-           .delete-btn{
-             margin-left: 2%;
-             background-color: rgba(217, 46, 46, 0.99);
-           }
-         }
-         .content-block {
-           flex: 1;
-           height: auto;
+            .btn-lesson {
+              margin-left: 2%;
+              background-color: rgba(7, 150, 91, 0.99);
+            }
 
-           span{
-             @include txtStyle(rgb(73, 71, 71), 16px, 500, 14px, normal);
-           }
-         }
-       }
+            .delete-btn {
+              margin-left: 2%;
+              background-color: rgba(217, 46, 46, 0.99);
+            }
+          }
+
+          .content-block {
+            flex: 1;
+            height: auto;
+
+            span {
+              @include txtStyle(rgb(73, 71, 71), 16px, 500, 14px, normal);
+            }
+          }
+        }
 
 
       }
