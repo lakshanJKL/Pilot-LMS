@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
@@ -39,7 +39,8 @@ export class AllCoursesComponent implements OnInit {
   constructor(private database: AngularFirestore,
               private matDialog: MatDialog,
               private matSnackBar: MatSnackBar,
-              private userService: UserService
+              private userService: UserService,
+              private render: Renderer2
   ) {
   }
 
@@ -184,5 +185,12 @@ export class AllCoursesComponent implements OnInit {
       this.deleteCourseState = true;
     }
     this.getCourses();
+
+
+    // this.render.setStyle(document.body,
+    //   'background-image',
+    //   'url("https://png.pngtree.com/background/20230403/original/pngtree-portrait-of-mature-pilot-holding-airplane-toy-while-playing-with-cute-picture-image_2283097.jpg")'
+    // );
+    // this.render.setStyle(document.body, 'opacity', '0.99');
   }
 }

@@ -41,9 +41,48 @@ $height: 100%;
       height: $height;
       @include display(flex, row, flex-end, center);
 
-      .br-btn {
+      .br-btn-course {
         border-radius: 4px;
-        background-color: rgba(47, 48, 52, 0.67);
+        background-color: rgb(163, 103, 222);
+        border: none;
+        text-align: center;
+        padding: 20px;
+        width: 30%;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+
+
+        span {
+          cursor: pointer;
+          @include display(inline-block, none, none, none);
+          @include txtStyle(white, 14px, 500, 14px, normal);
+          position: relative;
+          transition: 0.5s;
+        }
+
+        span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+        }
+
+        &:hover span {
+          padding-right: 25px;
+        }
+
+        &:hover span:after {
+          opacity: 1;
+          right: 0;
+        }
+      }
+
+      .br-btn-assignment{
+        border-radius: 4px;
+        background-color: rgba(66, 171, 192, 0.85);
         border: none;
         text-align: center;
         padding: 20px;

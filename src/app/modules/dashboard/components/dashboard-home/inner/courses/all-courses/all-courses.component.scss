@@ -52,7 +52,7 @@ table {
       .c-box {
         width: 250px;
         height: 300px;
-        background-image: linear-gradient(to bottom right, rgba(12, 12, 141, 0.85), #12a688);
+        background-image: linear-gradient(to bottom right, rgba(11, 11, 166, 0.85), #700ea1);
         border-radius: 10px;
         box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
         @include display(flex, column, center, center);
@@ -88,7 +88,7 @@ table {
 
           .lesson-btn {
             margin-right: 10px;
-            background-color: rgba(150, 27, 201, 0.88);
+            background-color: rgba(14, 14, 255, 0.85);
           }
 
           .enroll-btn {

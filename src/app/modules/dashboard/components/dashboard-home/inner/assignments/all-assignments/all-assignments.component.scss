@@ -60,7 +60,7 @@ $height: 100%;
           width: $width;
 
           .dueDate {
-            color: rgba(234, 84, 84, 0.94);
+            color: rgba(234, 92, 92, 0.94);
           }
 
           .submission-header {
@@ -111,7 +111,7 @@ $height: 100%;
                 border-radius: 4px;
                 color: white;
                 border: none;
-                background-color: #12a688;
+                background-color: #19b695;
                 text-align: center;
                 padding: 10px;
                 width: 50%;
@@ -121,7 +121,7 @@ $height: 100%;
               }
 
               input[type=file]::file-selector-button:hover {
-                background-color: #008350;
+                background-color: #0d945c;
               }
             }
 

@@ -81,7 +81,6 @@ export class NewAssignmentComponent implements OnInit {
 
   // create assignment
   saveBtn() {
-    this.loading = true;
     this.dataBase.collection("lessons").get().subscribe((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         let lessons: any = doc.data();

@@ -116,6 +116,12 @@ export class AllAssignmentsComponent implements OnInit {
     });
   }
 
+
+  // catch selected file
+  onChangeFile(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
   // Assignment submission
   submitAssignment(assignmentId: any) {
     if (this.selectedFile == null) {
@@ -171,10 +177,6 @@ export class AllAssignmentsComponent implements OnInit {
     }
   }
 
-  // catch selected file
-  onChangeFile(event: any) {
-    this.selectedFile = event.target.files[0];
-  }
 
   // Get user id from database
   private getEmail = (getEmail: any): any => {

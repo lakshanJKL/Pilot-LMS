@@ -52,12 +52,12 @@ $height: 100%;
       .open-btn {
         color: white;
         border-radius: 5px;
-        background-color: rgb(159, 107, 213);
+        background-color: rgba(155, 151, 151, 0.85);
 
         &:hover {
           color: white;
           border-radius: 5px;
-          background-color: rgb(118, 21, 222);
+          background-color: rgba(123, 123, 126, 0.85);
         }
       }
     }
