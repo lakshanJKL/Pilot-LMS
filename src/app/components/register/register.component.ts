@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Renderer2} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -35,7 +35,7 @@ import swAlert from "sweetalert";
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit,AfterViewInit{
 
   hide = true;
 
@@ -74,10 +74,13 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.renderer.setStyle(document.body,
-      'background-image',
-      'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
-    );
-    this.renderer.setStyle(document.body, 'opacity', '0.8');
+  }
+
+  ngAfterViewInit(): void {
+      this.renderer.setStyle(document.body,
+          'background-image',
+          'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'
+      );
+      this.renderer.setStyle(document.body, 'opacity', '0.8');
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Renderer2} from '@angular/core';
 import {FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {merge} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
@@ -34,8 +34,8 @@ import swAlert from 'sweetalert';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit,AfterViewInit{
+  test:String= "hello this is testing";
   hide = true;
   email = new FormControl('', [Validators.required, Validators.email]);
   password: any = new FormControl("", Validators.required);
@@ -111,7 +111,8 @@ export class LoginComponent implements OnInit {
     if (this.cookie.isExistCookie("userData")) {
       this.router.navigateByUrl("/dashboard/home").then();
     }
-
+  }
+  ngAfterViewInit(): void {
     this.render.setStyle(document.body,
       'background-image',
       'url("https://www.jimsblog.in/wp-content/uploads/2021/04/Educational-Technology-and-Mobile-Learning.jpg")'

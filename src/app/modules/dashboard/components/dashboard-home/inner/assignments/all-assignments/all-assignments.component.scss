@@ -92,7 +92,7 @@ $height: 100%;
               height: $height;
 
               p {
-                @include txtStyle(rgb(77, 71, 71), 15px, 350, 13px, normal);
+                @include txtStyle(rgb(77, 71, 71), 16px, 350, 13px, normal);
               }
             }
           }
